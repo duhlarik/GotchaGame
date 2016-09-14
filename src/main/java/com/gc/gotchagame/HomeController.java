@@ -73,5 +73,51 @@ public class HomeController {
 
 	}	
 	
+	@RequestMapping(value = "assignments", method = RequestMethod.GET)
+	public String processAssignment(HttpServletRequest request, Model model)
+	
+	{
+		try {
+		String player1 = request.getParameter("player1");
+		String player2 = request.getParameter("player2");
+		
+		String[] ar = {player1, player2};
+
+		model.addAttribute("message", ar);
+
+		
+		
+		Class.forName("com.mysql.jdbc.Driver"); //the connection is an example of the factory design pattern
+
+		
+		Connection conn = DriverManager.getConnection
+		("jdbc:mysql://localhost:3306/GameTestPlayerName", "root", "Farfel83!");
+		
+		
+		String query = "INSERT INTO PlayerInfo"
+				+ "(PlayerName) VALUES"
+				+ "(?)";
+				
+				
+		for (int i = 0; i< ar.length; i++)
+		{
+		java.sql.PreparedStatement updatePlayer = conn.prepareStatement(query);
+		updatePlayer.setString (1,  ar[i]);
+
+		
+
+		      updatePlayer.execute();
+		} 
+		}
+		catch (Exception e)
+	    {
+	      System.err.println("Got an exception!");
+	      System.err.println(e.getMessage());
+	    }
+	
+		return "Assignments";
+	
+	}
+	
 	
 }

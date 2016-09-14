@@ -83,13 +83,26 @@ li a:hover {
 
 </header>
 <ul>
-      <li><a href="GotchaGameDashboard.html">Game Dashboard</a></li>
-  <li><a href="GotchaGameOverview.html">Game Overview</a></li>
-  <li><a href="GotchaGameGames.HTML">Games</a></li>
-   <li><a href="GotchaGamesCreateGame.Html">Create Game</a></li> 
+      <li><form action="playerdashboard" method="get">
+		<br> 
+		<br> <input type="submit" align="center" value="Player Dashboard">
+
+	</form></li>
+  <li><form action="GotchaGamesCreateGame" method="get">
+		<br> 
+		<br> <input type="submit" align="center" value="Create Game">
+
+	</form></li>
+  </form></li>
+  <li><form action="Assignments" method="get">
+		<br> 
+		<br> <input type="submit" align="center" value="Games">
+
+	</form></li> 
 
 
 </ul>
+</header>
 
 <h1> ${message [0]} </h1><br>
 <h1> ${message [1]} </h1><br>
