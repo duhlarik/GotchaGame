@@ -1,0 +1,10 @@
+1	pineapple
+2	basketball
+3	baby shoe
+4	umbrella
+5	Dr. Pepper soda
+6	grocery bag
+7	spoon
+8	bagel
+9	old sneaker
+10	bottle of shampoo
