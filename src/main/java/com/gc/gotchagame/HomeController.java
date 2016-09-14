@@ -41,4 +41,12 @@ public class HomeController {
 		
 		return "home";
 	}
+	@RequestMapping(value = "privacy policy", method = RequestMethod.GET)
+	public String processForm(HttpServletRequest request, Model model) {
+	
+		
+		return "privacypolicy";
+
+	}	
+	
 }
