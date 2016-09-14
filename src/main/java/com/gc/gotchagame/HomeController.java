@@ -57,4 +57,13 @@ public class HomeController {
 
 	}	
 	
+	@RequestMapping(value = "playerdashboard", method = RequestMethod.GET)
+	public String processSuccessfulLogin(HttpServletRequest request, Model model) {
+	
+		
+		return "playerdashboard";
+
+	}	
+	
+	
 }

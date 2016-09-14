@@ -108,7 +108,7 @@ form {
 	<form action="playerdashboard" method="get">
 		<br> username <input type="text" align="center" name="username">
 		<br> password <input type="text" align="center" name="password">
-		<br> <input type="submit" align="center" value="Login">
+		<br> <input type="submit" align="center" value="login">
 
 	</form>
 	<p>
