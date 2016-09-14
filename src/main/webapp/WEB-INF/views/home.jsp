@@ -128,6 +128,15 @@ form {
 		<br><input type="submit" align="center" value="Privacy Policy">
 </p>
 	</form>	
+		</form>	
+	<p>
+	 <b> If you do not agree to Instagram's Login Policy, please click below.</b>
+			
+			<form action="redirectPage" method="get">
+		
+		<br><input type="submit" align="center" value="Login Policy">
+</p>
+	</form>	
 	
 
 
