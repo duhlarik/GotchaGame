@@ -105,20 +105,30 @@ form {
 
 	</p>
 	<p>
-	<form action="listCustomers" method="get">
+	<form action="playerdashboard" method="get">
 		<br> username <input type="text" align="center" name="username">
 		<br> password <input type="text" align="center" name="password">
 		<br> <input type="submit" align="center" value="Login">
 
 	</form>
 	<p>
-		<a href="newuser.html"></a> <b>New User? Click here to create an
+		 <b>New User? Click below to create an
 			account.</b>
-	</p>
-
+			
+			<form action="newuser copy" method="get">
+		
+		<br><input type="submit" align="center" value="New User">
+</p>
+	</form>	
 	<p>
-		<a href="privacypolicy.jsp"> <b>Privacy Policy</b>
-	</p>
+	 <b> Click below to read our privacy policy.</b>
+			
+			<form action="privacy policy" method="get">
+		
+		<br><input type="submit" align="center" value="Privacy Policy">
+</p>
+	</form>	
+	
 
 
 	</p>
