@@ -1,0 +1,10 @@
+1	by a stream
+2	under a tree
+3	in an elevator
+4	in a vestibule
+5	in a hallway
+6	in a doorway
+7	standing on grass
+8	standing on carpet
+9	standing on a corner
+10	in a stationary vehicle
