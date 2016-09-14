@@ -42,10 +42,18 @@ public class HomeController {
 		return "home";
 	}
 	@RequestMapping(value = "privacy policy", method = RequestMethod.GET)
-	public String processForm(HttpServletRequest request, Model model) {
+	public String processPrivacyPolicy(HttpServletRequest request, Model model) {
 	
 		
 		return "privacypolicy";
+
+	}	
+	
+	@RequestMapping(value = "redirectPage", method = RequestMethod.GET)
+	public String processRedirectPage(HttpServletRequest request, Model model) {
+	
+		
+		return "redirectPage";
 
 	}	
 	
