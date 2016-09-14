@@ -1,11 +1,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
+
 <html>
 
 
 
 <head>
-	   <title>Gotcha Game</title>
+   <title>Gotcha Game</title>
 
     <meta name="Gotcha Game" content="An interactive game where players eliminate other players by getting them to hold a specified item at a specified location.  Users will be able to get their spy on and take out targets.  Instagram integration is used to create a running record of the games events.  Are you ready to get or be got?">
 <!-- Latest compiled and minified CSS -->
@@ -24,7 +25,6 @@ body
 
 
 }
-
 
 header, footer {exam
 
@@ -69,10 +69,6 @@ li a {
 li a:hover {
     background-color: #111;
 }
-form {
-  text-align: center;
-}
-
 </style>
 </head>
 <body>
@@ -85,47 +81,34 @@ form {
 
 
 </header>
+<ul>
+      <li><a href="GotchaGameDashboard.html">Game Dashboard</a></li>
+  <li><a href="GotchaGameOverview.html">Game Overview</a></li>
+  <li><a href="GotchaGameGames.HTML">Games</a></li>
+   <li><a href="GotchaGamesCreateGame.Html">Create Game</a></li> 
 
 
+</ul>
+
+<br>
+<br>
+<br>
 <br>
 <br>
 <br>
 <br>
 <p>
-    <b>Gotcha: Got or be Got.</b>
+	   "Life is more fun 
     <br>
-    Players are assigned a target (another player), an item, and a location.
+    if you play games.""
     <br>
-    Get points by getting your target to hold the specified item at the specified location and posting the picture.
-<br>
-    Win the game by being the last player standing.
+    <br>
+Roald Dahl
 	<br>
- 
-</p>
-<p>
-<form action= "listCustomers" method ="get">
-    <br>
-username <input type ="text" align="center"  name="username">
-<br>
-password <input type ="text" align="center"  name="password">
-<br>
-
-
-<input type = "submit" align="center"  value="Login">
-
-</form>
-<p>
-<a href="newuser.html"></a>
-<b>New User? Click here to create an account.</b>
-</p>
-
-<p>
-<a href="privacypolicy.html"
-<b>Privacy Policy</b>
 </p>
 
 
-</p>
+
 
 
 </body>
