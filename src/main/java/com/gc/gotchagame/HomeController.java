@@ -65,5 +65,13 @@ public class HomeController {
 
 	}	
 	
+	@RequestMapping(value = "GotchaGamesCreateGame", method = RequestMethod.GET)
+	public String CreateGamePage(HttpServletRequest request, Model model) {
+	
+		
+		return "GotchaGamesCreateGame";
+
+	}	
+	
 	
 }
