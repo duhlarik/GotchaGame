@@ -103,16 +103,17 @@ public class HomeController {
 
 		updateGame.execute();
 		
-		String query = "INSERT INTO PlayerInfo"
-				+ "(PlayerName) VALUES"
-				+ "(?)";
+		String query = "INSERT INTO InvitedPlayersTable"
+				+ "(GameName, InvitedPlayer) VALUES"
+				+ "(?,?)";
 				
 		for (int i = 0; i< ar.length; i++)
 		{
-		java.sql.PreparedStatement updatePlayer = conn.prepareStatement(query);
-		updatePlayer.setString (1,  ar[i]);
+		java.sql.PreparedStatement updateInvitedPlayer = conn.prepareStatement(query);
+		updateInvitedPlayer.setString (1,  gameName);
+		updateInvitedPlayer.setString (2,  ar[i]);
 		
-		      updatePlayer.execute();
+		      updateInvitedPlayer.execute();
 		} 
 		}
 		catch (Exception e)
