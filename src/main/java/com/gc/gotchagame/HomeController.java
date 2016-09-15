@@ -103,15 +103,16 @@ public class HomeController {
 
 		updateGame.execute();
 		
-		String query = "INSERT INTO InvitedPlayersTable"
-				+ "(GameName, InvitedPlayer) VALUES"
-				+ "(?,?)";
+		String query = "INSERT INTO PlayerTable1"
+				+ "(PlayerNumber, UserId, GameName) VALUES"
+				+ "(?,?,?)";
 				
 		for (int i = 0; i< ar.length; i++)
 		{
 		java.sql.PreparedStatement updateInvitedPlayer = conn.prepareStatement(query);
-		updateInvitedPlayer.setString (1,  gameName);
+		updateInvitedPlayer.setInt (1,  i+1);
 		updateInvitedPlayer.setString (2,  ar[i]);
+		updateInvitedPlayer.setString (3,  gameName);
 		
 		      updateInvitedPlayer.execute();
 		} 
