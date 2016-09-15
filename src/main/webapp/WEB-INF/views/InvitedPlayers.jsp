@@ -78,7 +78,7 @@ li a:hover {
 <header>
 
 <h1>Gotcha!</h1>
-<h3>Assignments</h3>
+<h3>Accept Invitations</h3>
 
 
 </header>
