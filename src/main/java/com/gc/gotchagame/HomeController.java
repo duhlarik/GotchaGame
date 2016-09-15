@@ -43,7 +43,6 @@ public class HomeController {
 	}
 	@RequestMapping(value = "privacy policy", method = RequestMethod.GET)
 	public String processPrivacyPolicy(HttpServletRequest request, Model model) {
-	
 		
 		return "privacypolicy";
 
@@ -51,7 +50,6 @@ public class HomeController {
 	
 	@RequestMapping(value = "redirectPage", method = RequestMethod.GET)
 	public String processRedirectPage(HttpServletRequest request, Model model) {
-	
 		
 		return "redirectPage";
 
@@ -59,7 +57,6 @@ public class HomeController {
 	
 	@RequestMapping(value = "playerdashboard", method = RequestMethod.GET)
 	public String processSuccessfulLogin(HttpServletRequest request, Model model) {
-	
 		
 		return "playerdashboard";
 
@@ -73,7 +70,7 @@ public class HomeController {
 
 	}	
 	
-	@RequestMapping(value = "assignments", method = RequestMethod.GET)
+	@RequestMapping(value = "gamecreation", method = RequestMethod.GET)
 	public String processAssignment(HttpServletRequest request, Model model)
 	
 	{
@@ -90,10 +87,7 @@ public class HomeController {
 		model.addAttribute("message1", startDate);
 		model.addAttribute("message2", endDate);
 		
-		
-		
 		Class.forName("com.mysql.jdbc.Driver"); //the connection is an example of the factory design pattern
-
 		
 		Connection conn = DriverManager.getConnection
 		("jdbc:mysql://localhost:3306/GameTestPlayerName", "root", "Farfel83!");
@@ -106,22 +100,18 @@ public class HomeController {
 		updateGame.setString (1, gameName);
 		updateGame.setString (2, startDate);
 		updateGame.setString (3, endDate);
-		
 
-	      updateGame.execute();
+		updateGame.execute();
 		
 		String query = "INSERT INTO PlayerInfo"
 				+ "(PlayerName) VALUES"
 				+ "(?)";
 				
-				
 		for (int i = 0; i< ar.length; i++)
 		{
 		java.sql.PreparedStatement updatePlayer = conn.prepareStatement(query);
 		updatePlayer.setString (1,  ar[i]);
-
 		
-
 		      updatePlayer.execute();
 		} 
 		}
@@ -131,9 +121,51 @@ public class HomeController {
 	      System.err.println(e.getMessage());
 	    }
 	
-		return "Assignments";
+		return "InvitedPlayers";
 	
 	}
 	
+	@RequestMapping(value = "playersAccepted", method = RequestMethod.GET)
+	public String playersAccepted(HttpServletRequest request, Model model)
 	
+	{
+		try {
+		String gameName = request.getParameter("gamename");
+		String userName1 = request.getParameter("player1");
+		String userName2 = request.getParameter("player2");
+		
+		String[] ar = {userName1, userName2};
+		model.addAttribute("message", ar);
+		model.addAttribute("message1", gameName);
+		
+		Class.forName("com.mysql.jdbc.Driver"); //the connection is an example of the factory design pattern
+		
+		Connection conn = DriverManager.getConnection
+		("jdbc:mysql://localhost:3306/GameTestPlayerName", "root", "Farfel83!");
+		
+		String query1 = "INSERT INTO PlayerTable1"
+				+ "(PlayerNumber, UserId, GameName) VALUES"
+				+ "(?, ?, ?)";
+		
+		for (int i = 0; i< ar.length; i++)
+		{java.sql.PreparedStatement updatePlayerTable = conn.prepareStatement(query1);
+		
+		updatePlayerTable.setInt (1, (i+1));
+		updatePlayerTable.setString(2, ar[i]);
+		updatePlayerTable.setString(3, gameName);
+
+	      updatePlayerTable.execute();
+		
+		}
+		
+		}
+		catch (Exception e)
+	    {
+	      System.err.println("Got an exception!");
+	      System.err.println(e.getMessage());
+	    }
+	
+		return "StartGame";
+	
+	}
 }

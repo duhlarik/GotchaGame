@@ -106,7 +106,7 @@ li a:hover {
 <br>
 <br>
 <br>
-<form action= "assignments" method ="get">
+<form action= "gamecreation" method ="get">
 Game Name(Please Start with a Hashtag):<input type ="text" name="gamename">
 Start Date (enter date as mm/dd/yyyy): <input type ="date" name="startdate">
 End Date (enter date as mm/dd/yyyy):<input type ="date" name="enddate">
