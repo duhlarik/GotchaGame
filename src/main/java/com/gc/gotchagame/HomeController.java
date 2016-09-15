@@ -78,13 +78,18 @@ public class HomeController {
 	
 	{
 		try {
+		String gameName = request.getParameter("gamename");
+		String startDate = request.getParameter("startdate");
+		String endDate = request.getParameter("enddate");
 		String player1 = request.getParameter("player1");
 		String player2 = request.getParameter("player2");
 		
 		String[] ar = {player1, player2};
-
 		model.addAttribute("message", ar);
-
+		model.addAttribute("message1", gameName);
+		model.addAttribute("message1", startDate);
+		model.addAttribute("message2", endDate);
+		
 		
 		
 		Class.forName("com.mysql.jdbc.Driver"); //the connection is an example of the factory design pattern
@@ -93,6 +98,17 @@ public class HomeController {
 		Connection conn = DriverManager.getConnection
 		("jdbc:mysql://localhost:3306/GameTestPlayerName", "root", "Farfel83!");
 		
+		String query1 = "INSERT INTO GameTable"
+				+ "(GameName, StartDate,EndDate) VALUES"
+				+ "(?, ?, ?)";
+		
+		java.sql.PreparedStatement updateGame = conn.prepareStatement(query1);
+		updateGame.setString (1, gameName);
+		updateGame.setString (2, startDate);
+		updateGame.setString (3, endDate);
+		
+
+	      updateGame.execute();
 		
 		String query = "INSERT INTO PlayerInfo"
 				+ "(PlayerName) VALUES"

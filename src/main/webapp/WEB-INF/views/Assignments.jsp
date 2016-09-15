@@ -106,7 +106,8 @@ li a:hover {
 
 <h1> ${message [0]} </h1><br>
 <h1> ${message [1]} </h1><br>
-
+<h1> ${message1}</h1>
+<h1> ${message2}</h1>
 <form action= "assignments" method ="get">
 
 
