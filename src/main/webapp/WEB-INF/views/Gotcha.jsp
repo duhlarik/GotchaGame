@@ -78,7 +78,7 @@ li a:hover {
 <header>
 
 <h1>Gotcha!</h1>
-<h3>Start Game</h3>
+<h3>Gotcha?</h3>
 
 
 </header>
@@ -103,10 +103,10 @@ li a:hover {
 
 </ul>
 </header>
-<h1>Start Game!</h1>
-<form action= "StartGame" method ="get">
+<h1>Gotcha?</h1>
+<form action= "GotchaSubmitted" method ="get">
 
-<input type = "submit"  value="Start Game!">
+<input type = "submit"  value="Gotcha?">
 </form>
 <!-- <button onclick="addPlayer()">Accept Invitation</button>-->
 
