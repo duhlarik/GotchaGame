@@ -103,20 +103,28 @@ li a:hover {
 
 </ul>
 </header>
+<h1> ${gameName}   </h1>
+<h1> ${invitedPlayers [0]} </h1><br>
 
-<h1> ${message [0]} </h1><br>
-<h1> ${message [1]} </h1><br>
-<h1> ${message1}</h1>
-<h1> ${message2}</h1>
 <form action= "playersAccepted" method ="get">
 
 
 
-<input type = "submit"  value="All Players Accepted! Start Game!">
+<input type = "submit"  value="Player Accepted!">
 
 </form>
 
+<h1> ${invitedPlayers [1]} </h1><br>
 
+<form action= "playersAccepted" method ="get">
+
+
+
+<input type = "submit"  value="Player Accepted!">
+
+</form>
+<h1> ${startDate}</h1>
+<h1> ${endDate}</h1>
 </body>
 
 </html>

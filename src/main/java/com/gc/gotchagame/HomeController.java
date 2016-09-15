@@ -82,10 +82,10 @@ public class HomeController {
 		String player2 = request.getParameter("player2");
 		
 		String[] ar = {player1, player2};
-		model.addAttribute("message", ar);
-		model.addAttribute("message1", gameName);
-		model.addAttribute("message1", startDate);
-		model.addAttribute("message2", endDate);
+		model.addAttribute("invitedPlayers", ar);
+		model.addAttribute("gameName", gameName);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
 		
 		Class.forName("com.mysql.jdbc.Driver"); //the connection is an example of the factory design pattern
 		
