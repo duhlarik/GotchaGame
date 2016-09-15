@@ -105,12 +105,18 @@ li a:hover {
 </header>
 <h1> ${gameName}   </h1>
 <h1> ${invitedPlayers [0]} </h1><br>
+<form action= "addPlayer" method ="get">
+<input type = "submit"  value="Accept invitation!">
+</form>
 
-<button onclick="addPlayer()">Accept Invitation</button>
+<!--  <button onclick="addPlayer">Accept Invitation</button>-->
 
 <h1> ${invitedPlayers [1]} </h1><br>
+<form action= "addPlayer" method ="get">
 
-<button onclick="addPlayer()">Accept Invitation</button>
+<input type = "submit"  value="Accept invitation!">
+</form>
+<!-- <button onclick="addPlayer()">Accept Invitation</button>-->
 
 <h1> ${startDate}</h1>
 <h1> ${endDate}</h1>
