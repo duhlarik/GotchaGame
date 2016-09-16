@@ -62,6 +62,26 @@ public class HomeController {
 
 	}	
 	
+	@RequestMapping(value = "AddPlayersToTable", method = RequestMethod.GET)
+	public String addPlayersToTable(HttpServletRequest request, Model model) {
+		//this method runs everytime the game maker clicks the button to invite player
+		//when the twitter username is entered, we want to store this in the playertable under UserId.
+		//We will assign a playerNumber and the game number associated to this invite.
+		//We will then return to the invite players page so the gamemaker can invite another player.
+		
+		
+		return "InvitePlayers";
+
+	}	
+	
+	@RequestMapping(value = "InvitePlayers", method = RequestMethod.GET)
+	public String InvitePlayersClick(HttpServletRequest request, Model model) {
+		
+		
+		return "InvitePlayers";
+
+	}	
+	
 	@RequestMapping(value = "GameInvitations", method = RequestMethod.GET)
 	public String processGameInvitationsClick(HttpServletRequest request, Model model) {
 		
@@ -69,6 +89,12 @@ public class HomeController {
 
 	}	
 	
+	@RequestMapping(value = "PlayerInviteComplete", method = RequestMethod.GET)
+	public String processFinishedInvitingPlayersClick(HttpServletRequest request, Model model) {
+		
+		return "StartGame";
+
+	}	
 	
 	@RequestMapping(value = "GameOverview", method = RequestMethod.GET)
 	public String processGameOverviewClick(HttpServletRequest request, Model model) {
