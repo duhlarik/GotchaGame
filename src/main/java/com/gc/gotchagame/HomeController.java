@@ -165,6 +165,7 @@ public class HomeController {
 	
 	{
 		try {
+			
 		String gameName = request.getParameter("gamename");
 		String startDate = request.getParameter("startdate");
 		String endDate = request.getParameter("enddate");
@@ -172,8 +173,8 @@ public class HomeController {
 		
 		String player1 = request.getParameter("player1");
 		String player2 = request.getParameter("player2");
-		
-		String[] ar = {userNamePlayerLoggedIn, player1, player2};
+	
+		String[] ar = {player1, player2};
 		model.addAttribute("invitedPlayers", ar);
 		model.addAttribute("gameName", gameName);
 		model.addAttribute("startDate", startDate);
@@ -184,7 +185,7 @@ public class HomeController {
 		Connection conn = DriverManager.getConnection
 		("jdbc:mysql://localhost:3306/GameTestPlayerName", "root", "Farfel83!");
 		
-		String query1 = "INSERT INTO GameTable"
+		String query1 = "INSERT INTO GameTable1"
 				+ "(GameName,StartDate,EndDate,GameMakerUserName) VALUES"
 				+ "(?,?,?,?)";
 		
