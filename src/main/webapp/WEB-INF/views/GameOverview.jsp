@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
 <html>
 
 
@@ -78,7 +77,8 @@ li a:hover {
 <header>
 
 <h1>Gotcha!</h1>
-<h3>Start Game</h3>
+<h3>Game Overview</h3>
+
 
 </header>
 <ul>
@@ -120,15 +120,16 @@ li a:hover {
 
 
 </ul>
-
 </header>
-<h1>Start Game!</h1>
-<form action= "StartGame" method ="get">
+<p>
+<br>
+<br>
+<br>
+<h3>Gotcha...........</h3>
 
-<input type = "submit"  value="Start Game!">
+
 </form>
-<!-- <button onclick="addPlayer()">Accept Invitation</button>-->
-
+</p>
 
 </body>
 

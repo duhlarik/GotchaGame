@@ -78,11 +78,17 @@ li a:hover {
 <header>
 
 <h1>Gotcha!</h1>
-<h3>Accept Invitations</h3>
+<h3>Game Invitations</h3>
 
 
 </header>
 <ul>
+
+<li><form action="GameOverview" method="get">
+		<br> 
+		<br> <input type="submit" align="center" value="Game Overview">
+
+	</form></li>
       <li><form action="playerdashboard" method="get">
 		<br> 
 		<br> <input type="submit" align="center" value="Player Dashboard">
@@ -93,15 +99,29 @@ li a:hover {
 		<br> <input type="submit" align="center" value="Create Game">
 
 	</form></li>
-  </form></li>
+	
+  <li><form action="StartGameGameMakerPage" method="get">
+		<br> 
+		<br> <input type="submit" align="center" value="Start Created Game">
+
+	</form></li>
+  
   <li><form action="Assignments" method="get">
 		<br> 
-		<br> <input type="submit" align="center" value="Games">
+		<br> <input type="submit" align="center" value="Active Games">
 
 	</form></li> 
 
+  <li><form action="GameInvitations" method="get">
+		<br> 
+		<br> <input type="submit" align="center" value="Game Invitations">
+
+	</form></li>
+	
+
 
 </ul>
+
 </header>
 <h1> ${gameName}   </h1>
 <h1> ${invitedPlayers [0]} </h1><br>

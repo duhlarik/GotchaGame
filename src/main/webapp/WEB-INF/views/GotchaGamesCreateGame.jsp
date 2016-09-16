@@ -82,6 +82,12 @@ li a:hover {
 
 </header>
 <ul>
+
+<li><form action="GameOverview" method="get">
+		<br> 
+		<br> <input type="submit" align="center" value="Game Overview">
+
+	</form></li>
       <li><form action="playerdashboard" method="get">
 		<br> 
 		<br> <input type="submit" align="center" value="Player Dashboard">
@@ -92,12 +98,25 @@ li a:hover {
 		<br> <input type="submit" align="center" value="Create Game">
 
 	</form></li>
-  </form></li>
+	
+  <li><form action="StartGameGameMakerPage" method="get">
+		<br> 
+		<br> <input type="submit" align="center" value="Start Created Game">
+
+	</form></li>
+  
   <li><form action="Assignments" method="get">
 		<br> 
-		<br> <input type="submit" align="center" value="Games">
+		<br> <input type="submit" align="center" value="Active Games">
 
 	</form></li> 
+
+  <li><form action="GameInvitations" method="get">
+		<br> 
+		<br> <input type="submit" align="center" value="Game Invitations">
+
+	</form></li>
+	
 
 
 </ul>

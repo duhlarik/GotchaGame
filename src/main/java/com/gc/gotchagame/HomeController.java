@@ -62,6 +62,38 @@ public class HomeController {
 
 	}	
 	
+	@RequestMapping(value = "GameInvitations", method = RequestMethod.GET)
+	public String processGameInvitationsClick(HttpServletRequest request, Model model) {
+		
+		return "InvitedPlayers";
+
+	}	
+	
+	
+	@RequestMapping(value = "GameOverview", method = RequestMethod.GET)
+	public String processGameOverviewClick(HttpServletRequest request, Model model) {
+		
+		return "GameOverview";
+
+	}	
+	
+	@RequestMapping(value = "Assignments", method = RequestMethod.GET)
+	public String processActiveGameClick(HttpServletRequest request, Model model) {
+		
+		return "ActiveGames";
+
+	}	
+	
+	@RequestMapping(value = "StartGameGameMakerPage", method = RequestMethod.GET)
+	public String processStartGameClick(HttpServletRequest request, Model model) {
+		
+		return "StartGame";
+
+	}	
+	
+	
+	
+	
 	@RequestMapping(value = "GotchaGamesCreateGame", method = RequestMethod.GET)
 	public String CreateGamePage(HttpServletRequest request, Model model) {
 	
