@@ -57,7 +57,8 @@ public class HomeController {
 	
 	@RequestMapping(value = "playerdashboard", method = RequestMethod.GET)
 	public String processSuccessfulLogin(HttpServletRequest request, Model model) {
-		
+		String userNamePlayerLoggedIn = request.getParameter("userName");
+		model.addAttribute("userName", userNamePlayerLoggedIn);
 		return "playerdashboard";
 
 	}	
@@ -85,7 +86,7 @@ public class HomeController {
 	@RequestMapping(value = "GameInvitations", method = RequestMethod.GET)
 	public String processGameInvitationsClick(HttpServletRequest request, Model model) {
 		
-		return "InvitedPlayers";
+		return "ActiveGames";
 
 	}	
 	
@@ -136,6 +137,7 @@ public class HomeController {
 		String gameName = request.getParameter("gamename");
 		String startDate = request.getParameter("startdate");
 		String endDate = request.getParameter("enddate");
+		String userNamePlayerLoggedIn = request.getParameter("userName");
 		String player1 = request.getParameter("player1");
 		String player2 = request.getParameter("player2");
 		
@@ -144,20 +146,21 @@ public class HomeController {
 		model.addAttribute("gameName", gameName);
 		model.addAttribute("startDate", startDate);
 		model.addAttribute("endDate", endDate);
-		
+		model.addAttribute("userName", userNamePlayerLoggedIn);
 		Class.forName("com.mysql.jdbc.Driver"); //the connection is an example of the factory design pattern
 		
 		Connection conn = DriverManager.getConnection
 		("jdbc:mysql://localhost:3306/GameTestPlayerName", "root", "Farfel83!");
 		
 		String query1 = "INSERT INTO GameTable"
-				+ "(GameName, StartDate,EndDate) VALUES"
-				+ "(?, ?, ?)";
+				+ "(GameName, StartDate,EndDate, GameMakerUserName) VALUES"
+				+ "(?, ?, ?, ?)";
 		
 		java.sql.PreparedStatement updateGame = conn.prepareStatement(query1);
 		updateGame.setString (1, gameName);
 		updateGame.setString (2, startDate);
 		updateGame.setString (3, endDate);
+		updateGame.setString (4, userNamePlayerLoggedIn);
 
 		updateGame.execute();
 		
