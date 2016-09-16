@@ -134,7 +134,7 @@ Player 2: <input type ="text" name="player2">
 <br>
 <br>
 
-<form action= "PlayerInviteComplete" method ="get">
+<form action= "AddPlayersToPlayersTable" method ="get">
 
 <input type = "submit"  value="I'm Finished Inviting Players!">
 

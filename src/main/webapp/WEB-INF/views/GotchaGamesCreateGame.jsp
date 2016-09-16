@@ -129,12 +129,11 @@ li a:hover {
 Game Name(Please Start with a Hashtag):<input type ="text" name="gamename">
 Start Date (enter date as mm/dd/yyyy): <input type ="date" name="startdate">
 End Date (enter date as mm/dd/yyyy):<input type ="date" name="enddate">
-Player 1: <input type ="text" name="player1">
-Player 2: <input type ="text" name="player2">
+
 <br>
 
 
-<input type = "submit"  value="submit players">
+<input type = "submit"  value="Submit Game">
 
 </form>
 </p>
