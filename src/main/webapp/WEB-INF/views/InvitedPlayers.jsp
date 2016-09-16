@@ -129,7 +129,7 @@ li a:hover {
 <input type = "submit"  value="Accept invitation!">
 </form>
 
-<!--  <button onclick="addPlayer">Accept Invitation</button>-->
+<!--  <button onclick="updatePlayerToActive">Accept Invitation</button>-->
 
 <h1> ${invitedPlayers [1]} </h1><br>
 <form action= "addPlayer" method ="get">

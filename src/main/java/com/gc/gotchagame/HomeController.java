@@ -57,8 +57,8 @@ public class HomeController {
 	
 	@RequestMapping(value = "playerdashboard", method = RequestMethod.GET)
 	public String processSuccessfulLogin(HttpServletRequest request, Model model) {
-		String userNamePlayerLoggedIn = request.getParameter("userName");
-		model.addAttribute("userName", userNamePlayerLoggedIn);
+		String userNamePlayerLoggedIn = request.getParameter("username");
+		model.addAttribute("username", userNamePlayerLoggedIn);
 		return "playerdashboard";
 
 	}	
@@ -137,24 +137,25 @@ public class HomeController {
 		String gameName = request.getParameter("gamename");
 		String startDate = request.getParameter("startdate");
 		String endDate = request.getParameter("enddate");
-		String userNamePlayerLoggedIn = request.getParameter("userName");
+		String userNamePlayerLoggedIn = request.getParameter("username");
+		
 		String player1 = request.getParameter("player1");
 		String player2 = request.getParameter("player2");
 		
-		String[] ar = {player1, player2};
+		String[] ar = {userNamePlayerLoggedIn, player1, player2};
 		model.addAttribute("invitedPlayers", ar);
 		model.addAttribute("gameName", gameName);
 		model.addAttribute("startDate", startDate);
 		model.addAttribute("endDate", endDate);
-		model.addAttribute("userName", userNamePlayerLoggedIn);
+		model.addAttribute("username", userNamePlayerLoggedIn);
 		Class.forName("com.mysql.jdbc.Driver"); //the connection is an example of the factory design pattern
 		
 		Connection conn = DriverManager.getConnection
 		("jdbc:mysql://localhost:3306/GameTestPlayerName", "root", "Farfel83!");
 		
 		String query1 = "INSERT INTO GameTable"
-				+ "(GameName, StartDate,EndDate, GameMakerUserName) VALUES"
-				+ "(?, ?, ?, ?)";
+				+ "(GameName,StartDate,EndDate,GameMakerUserName) VALUES"
+				+ "(?,?,?,?)";
 		
 		java.sql.PreparedStatement updateGame = conn.prepareStatement(query1);
 		updateGame.setString (1, gameName);
@@ -165,7 +166,7 @@ public class HomeController {
 		updateGame.execute();
 		
 		String query = "INSERT INTO PlayerTable1"
-				+ "(PlayerNumber, UserId, GameName) VALUES"
+				+ "(PlayerNumber,UserId,GameName) VALUES"
 				+ "(?,?,?)";
 				
 		for (int i = 0; i< ar.length; i++)
@@ -188,7 +189,7 @@ public class HomeController {
 	
 	}
 	
-	@RequestMapping(value = "addPlayer", method = RequestMethod.GET)
+	@RequestMapping(value = "updatePlayerToActive", method = RequestMethod.GET)
 	public String playersAccepted(HttpServletRequest request, Model model)
 	
 	{
