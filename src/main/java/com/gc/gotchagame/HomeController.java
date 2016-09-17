@@ -109,14 +109,14 @@ public String processSuccessfulLogin(HttpServletRequest request, HttpServletResp
 
 	}
 
-//@RequestMapping(value = "GameInvitations", method = RequestMethod.GET)
-//public String processGameInvitationsClick(HttpServletRequest request,
-//			Model model) {
-//
-//		return "ActiveGames";
-//
-//	}
-//
+@RequestMapping(value = "GameInvitations", method = RequestMethod.GET)
+public String processGameInvitationsClick(HttpServletRequest request,
+			Model model) {
+
+		return "GameInvitations";
+
+	}
+
 //	@RequestMapping(value = "PlayerInviteComplete", method = RequestMethod.GET)
 //	public String processFinishedInvitingPlayersClick(
 //			HttpServletRequest request, Model model) {
@@ -214,50 +214,45 @@ public String processAssignment(HttpServletRequest request, HttpServletResponse 
 		return "InvitePlayersPage";
 
 	}
-//
-//	@RequestMapping(value = "updatePlayerToActive", method = RequestMethod.GET)
-//	public String playersAccepted(HttpServletRequest request, Model model)
-//
-//	{
-//		try {
-//
-//			String userName1 = request.getParameter("player1");
-//			String userName2 = request.getParameter("player2");
-//
-//			String[] ar = { userName1, userName2 };
-//			model.addAttribute("message", ar);
-//
-//			Class.forName("com.mysql.jdbc.Driver"); // the connection is an
-//													// example of the factory
-//													// design pattern
-//
-//			Connection conn = DriverManager.getConnection(
-//					"jdbc:mysql://localhost:3306/GameTestPlayerName", "root",
-//					"Farfel83!");
-//
-//			String query1 = "UPDATE PlayerTable1 SET PlayerStatus='active' WHERE PlayerNumber=?";
-//
-//			for (int i = 0; i < ar.length; i++) {
-//
-//				java.sql.PreparedStatement updatePlayerStatus = conn
-//						.prepareStatement(query1);
-//
-//				updatePlayerStatus.setInt(1, i + 1);
-//				// updatePlayerStatus.setInt(2, i+1);
-//
-//				updatePlayerStatus.execute();
-//
-//			}
-//
-//		} catch (Exception e) {
-//			System.err.println("Got an exception!");
-//			System.err.println(e.getMessage());
-//		}
-//
-//		return "InvitePlayers";
-//
-//	}
-//
+
+@RequestMapping(value = "AcceptGame", method = RequestMethod.GET)
+public String playersAccepted(HttpServletRequest request, HttpServletResponse response, Model model)
+
+	{
+		try {
+
+			HttpSession session = request.getSession();
+			String userNameSession = (String) session.getAttribute("userNameSession");
+			Class.forName("com.mysql.jdbc.Driver");
+												
+
+			Connection conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/GameTestPlayerName", "root",
+					"Farfel83!");
+
+			String query1 = "UPDATE PlayerTable1 SET PlayerStatus='active' WHERE UserId=?";
+
+
+
+				java.sql.PreparedStatement updatePlayerStatus = conn
+						.prepareStatement(query1);
+
+				updatePlayerStatus.setString(1, userNameSession);
+
+
+				updatePlayerStatus.execute();
+
+			
+
+		} catch (Exception e) {
+			System.err.println("Got an exception!");
+			System.err.println(e.getMessage());
+		}
+
+		return "playerdashboard";
+
+}
+
 	@RequestMapping(value = "AddPlayerToPlayersTable", method = RequestMethod.GET)
 public String AddPlayersToTable(HttpServletRequest request, HttpServletResponse response, Model model) { 
 	//The gamemaker has created a new game.  They will now invite players	
