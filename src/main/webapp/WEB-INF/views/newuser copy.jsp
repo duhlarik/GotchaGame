@@ -101,7 +101,7 @@ li a:hover {
 <p>
 	"Life is more fun 
     <br>
-    if you play games.""
+    if you play games."
     <br>
 	<br>
 Roald Dahl
