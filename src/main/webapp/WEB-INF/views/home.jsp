@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
+<%@ page session="true"%>
+
 <html>
 
 
@@ -111,15 +112,16 @@ form {
 		<br> <input type="submit" align="center" value="login">
 
 	</form>
-	<p>
-		 <b>New User? Click below to create an
-			account.</b>
-			
-			<form action="newuser copy" method="get">
-		
-		<br><input type="submit" align="center" value="New User">
-</p>
-	</form>	
+	
+	<%
+   String userName = request.getParameter( "username" );
+   //I am setting the userName as sessionUserName
+   	request.getSession().setAttribute("sessionUserName", userName);
+
+   //when I call this I will use the command <%= session.getAttribute( "sessionUserName" ) %>
+   
+%>
+	
 	<p>
 	 <b> Click below to read our privacy policy.</b>
 			
