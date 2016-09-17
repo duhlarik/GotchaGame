@@ -126,10 +126,12 @@ li a:hover {
 <br>
 <br>
 <br>
-<h3>Your Mission</h3>
-<h3>Your Target:</h3>
-<h3>The Item</h3>
-<h3>The Location</h3>
+<h3> 's Mission</h3>
+<h3>Target: ${target} </h3>
+
+<h3>Item ${item} </h3>
+
+<h3>Location ${location} </h3>
 
 <form action= "newassignments" method ="get">
 <input type = "submit"  value="GOTCHA!">

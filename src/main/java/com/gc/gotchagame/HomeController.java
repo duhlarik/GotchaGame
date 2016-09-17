@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -62,9 +63,6 @@ public String processRedirectPage(HttpServletRequest request, Model model) {
 	}
 
 
-
-
-
 @RequestMapping(value = "playerdashboard", method = RequestMethod.GET)
 public String processSuccessfulLogin(HttpServletRequest request, HttpServletResponse response, Model model) {
 //user will go to login, enter username, and password and press login (with playerdashboard value).  if successful, we will go to playerdashboard
@@ -76,9 +74,7 @@ public String processSuccessfulLogin(HttpServletRequest request, HttpServletResp
 	HttpSession session = request.getSession();
 	session.setAttribute("userNameSession", userNameSession);
 	
-	Class.forName("com.mysql.jdbc.Driver"); // the connection is an
-												// example of the factory
-													// design pattern
+	Class.forName("com.mysql.jdbc.Driver"); 
 
 			Connection conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/GameTestPlayerName", "root",
@@ -117,14 +113,87 @@ public String processGameInvitationsClick(HttpServletRequest request,
 
 	}
 
-//	@RequestMapping(value = "PlayerInviteComplete", method = RequestMethod.GET)
-//	public String processFinishedInvitingPlayersClick(
-//			HttpServletRequest request, Model model) {
-//
-//		return "StartGame";
-//
-//	}
-//
+@RequestMapping(value = "Assignments", method = RequestMethod.GET)
+public String playerClicksonActiveGames(HttpServletRequest request, HttpServletResponse response, Model model) {
+//when player clicks on active game, this page will show an assignment for the specific user if the PlayerStatus is active, GameStatus is active. 
+	{
+		try{
+	HttpSession session1 =request.getSession();
+	String gamename = (String)session1.getAttribute("gamename");
+	String userNameSession = (String) session1.getAttribute("userNameSession");
+	Class.forName("com.mysql.jdbc.Driver"); 
+	Connection conn = DriverManager.getConnection(
+				"jdbc:mysql://localhost:3306/GameTestPlayerName", "root",
+				"Farfel83!");
+
+	String query1 = "Select GameStatus from GameTable1 WHERE GameName=?";
+
+			java.sql.PreparedStatement getGameStatus = conn
+					.prepareStatement(query1);
+
+			getGameStatus.setString(1, gamename);
+			ResultSet rs = getGameStatus.executeQuery(query1);
+			String getgamestat="";
+			while (rs.next()) {
+		            getgamestat = rs.getString("GameStatus");}
+
+	query1 = "Select PlayerStatus from PlayerTable1 WHERE UserId=?";
+
+	java.sql.PreparedStatement getPlayerStatus = conn
+			.prepareStatement(query1);
+
+	getPlayerStatus.setString(1, userNameSession);
+	ResultSet rs2 = getPlayerStatus.executeQuery(query1);
+	String getplayerstat = "";
+        while (rs2.next()) {
+            getplayerstat = rs.getString("PlayerStatus");}
+        
+       
+	//if player is active and game is active, we want to query for their assignment
+        if ((getplayerstat.equalsIgnoreCase("active")) && getgamestat.equalsIgnoreCase("active"))
+	{
+        	query1 = "Select * from PlayerTable1 WHERE UserId=?";
+
+        	java.sql.PreparedStatement getPlayerAssignment = conn
+        			.prepareStatement(query1);
+
+        	getPlayerAssignment.setString(1, userNameSession);
+        	ResultSet rs3 = getPlayerAssignment.executeQuery(query1);
+        	
+                while (rs3.next()) {
+                String userid = rs.getString("UserId");   
+                String target = rs.getString("Target");  
+                String location = rs.getString("Location");  
+                String item = rs.getString("Item");  
+                
+                model.addAttribute("userid", userid);
+        		model.addAttribute("target", target);
+        		model.addAttribute("location", location);
+        		model.addAttribute("item", item);
+                
+                }
+		
+		
+		
+		
+	}
+        
+	else
+	{
+		String messageNoAssignment = "You have no current games";
+	}
+	
+
+	} catch (Exception e) {
+		System.err.println("Got an exception!");
+		System.err.println(e.getMessage());
+	}
+	
+		return "ActiveGames";
+
+	}
+	}
+
 	@RequestMapping(value = "GameOverview", method = RequestMethod.GET)
 	public String processGameOverviewClick(HttpServletRequest request,
 			Model model) {
@@ -132,13 +201,7 @@ public String processGameInvitationsClick(HttpServletRequest request,
 		return "GameOverview";
 
 	}
-//
-//	@RequestMapping(value = "Assignments", method = RequestMethod.GET)
-//	public String processActiveGameClick(HttpServletRequest request, Model model) {
-//
-//		return "ActiveGames";
-//
-//	}
+
 //
 //	@RequestMapping(value = "StartGameGameMakerPage", method = RequestMethod.GET)
 //	public String processStartGameClick(HttpServletRequest request, Model model) {
@@ -296,6 +359,7 @@ model.addAttribute("invitedPlayers", ar);
 @RequestMapping(value = "StartGame", method = RequestMethod.GET)
 public String StartGameAssignments(HttpServletRequest request, HttpServletResponse response, Model model)
 //Game maker will press the start game button and this will trigger assignments.
+//Need to add the logic to trigger assignments for players that are attached to game in active status
 {	
 	
 	try {
