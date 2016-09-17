@@ -155,13 +155,13 @@ public String processSuccessfulLogin(HttpServletRequest request, HttpServletResp
 	}
 
 @RequestMapping(value = "gamecreation", method = RequestMethod.GET)
-public String processAssignment(HttpServletRequest request, Model model)
+public String processAssignment(HttpServletRequest request, HttpServletResponse response, Model model)
 {//This is our game creation page.  Once the user clicks create game, enters gamename and date information.  This will get stored in gametable.
 	//we also want to add the gamemaker into the player table at this point, but code needs work.  Once submitted, user will go to inviteplayerpage.
 	try {
 		HttpSession session = request.getSession();
-		String gameName = request.getParameter("gamename");
-		session.setAttribute("gameName", gameName);
+		String gamename = request.getParameter("gamename");
+		session.setAttribute("gamename", gamename);
 		String startDate = request.getParameter("startdate");
 		String endDate = request.getParameter("enddate");
 		
@@ -169,7 +169,7 @@ public String processAssignment(HttpServletRequest request, Model model)
 		//String gameMakerUserName = request.getParameter("gamecreatedby");
 		//Object value = request.getSession().getAttribute("username");
 		//String gameMakerUserName = (String) value;
-		model.addAttribute("gameName", gameName);
+		model.addAttribute("gamename", gamename);
 		model.addAttribute("startDate", startDate);
 		model.addAttribute("endDate", endDate);
 	
@@ -186,7 +186,7 @@ public String processAssignment(HttpServletRequest request, Model model)
 
 		java.sql.PreparedStatement updateGame = conn
 					.prepareStatement(query1);
-			updateGame.setString(1, gameName);
+			updateGame.setString(1, gamename);
 			updateGame.setString(2, startDate);
 			updateGame.setString(3, endDate);
 			updateGame.setString(4, userNameSession);
@@ -202,7 +202,7 @@ public String processAssignment(HttpServletRequest request, Model model)
 									.prepareStatement(query1);
 							addPlayerToPlayersTable.setInt(1, 1);
 							addPlayerToPlayersTable.setString(2, userNameSession);
-							addPlayerToPlayersTable.setString(3, gameName);
+							addPlayerToPlayersTable.setString(3, gamename);
 							addPlayerToPlayersTable.execute();		
 			
 
@@ -259,20 +259,20 @@ public String processAssignment(HttpServletRequest request, Model model)
 //	}
 //
 	@RequestMapping(value = "AddPlayerToPlayersTable", method = RequestMethod.GET)
-public String AddPlayersToTable(HttpServletRequest request, Model model) { 
+public String AddPlayersToTable(HttpServletRequest request, HttpServletResponse response, Model model) { 
 	//The gamemaker has created a new game.  They will now invite players	
 	//Need to figure out how to addGameNameIntoPlayerTable
 	try {
 
 String player1 = request.getParameter("player1");
 String player2 = request.getParameter("player2");
-HttpSession session = request.getSession();
-String gameName = (String) session.getAttribute("gameName");
-model.addAttribute("gameName", gameName);
+HttpSession session1 =request.getSession();
+String gamename = (String)session1.getAttribute("gamename");
+model.addAttribute("gamename", gamename);
 String[] ar = { player1, player2 };
 model.addAttribute("invitedPlayers", ar);
 
-			Class.forName("com.mysql.jdbc.Driver"); 
+		Class.forName("com.mysql.jdbc.Driver"); 
 
 		Connection conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/GameTestPlayerName", "root",
@@ -286,7 +286,7 @@ model.addAttribute("invitedPlayers", ar);
 						.prepareStatement(query1);
 				addPlayerToPlayersTable.setInt(1, i + 2);
 				addPlayerToPlayersTable.setString(2, ar[i]);
-				addPlayerToPlayersTable.setString(3, gameName);
+				addPlayerToPlayersTable.setString(3, gamename);
 				addPlayerToPlayersTable.execute();
 			}
 		} catch (Exception e) {
