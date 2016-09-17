@@ -8,9 +8,6 @@
 
 
 
-
-
-
 <head>
 	   <title>Gotcha Game</title>
 
@@ -83,7 +80,7 @@ li a:hover {
 <header>
 
 <h1>Gotcha!</h1>
-<h3>Invite Players</h3>
+<h3>Create Game</h3>
 
 
 </header>
@@ -126,22 +123,28 @@ li a:hover {
 
 
 </ul>
-
 </header>
-
-<form action= "AddPlayerToPlayersTable" method ="get">
-
-Player 1: <input type ="text" name="player1">
-Player 2: <input type ="text" name="player2">
-<input type = "submit"  value="submit players">
-
+<p>
 <br>
 <br>
 <br>
+<form action= "gamecreation" method ="get">
+Game Name(Please Start with a Hashtag):<input type ="text" name="gamename">
+<br>
+Start Date (enter date as mm/dd/yyyy): <input type ="date" name="startdate">
+<br>
+End Date (enter date as mm/dd/yyyy):<input type ="date" name="enddate">
+<br>
 
-<form action= "AddPlayersToPlayersTable" method ="get">
 
-<input type = "submit"  value="I'm Finished Inviting Players!">
+<br>
+
+
+<input type = "submit"  value="Submit Game">
 
 </form>
+</p>
+
+</body>
+
 </html>

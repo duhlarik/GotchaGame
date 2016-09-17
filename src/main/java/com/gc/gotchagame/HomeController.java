@@ -102,13 +102,13 @@ public String processSuccessfulLogin(HttpServletRequest request, HttpServletResp
 	}
 
 
-//	@RequestMapping(value = "InvitePlayers", method = RequestMethod.GET)
-//	public String InvitePlayersClick(HttpServletRequest request, Model model) {
-//
-//		return "InvitePlayers";
-//
-//	}
-//
+	@RequestMapping(value = "GameMakerInvitePlayers", method = RequestMethod.GET)
+	public String InvitePlayersClick(HttpServletRequest request, Model model) {
+
+		return "GameMakerInvitePlayers";
+
+	}
+
 //@RequestMapping(value = "GameInvitations", method = RequestMethod.GET)
 //public String processGameInvitationsClick(HttpServletRequest request,
 //			Model model) {
@@ -155,7 +155,7 @@ public String processSuccessfulLogin(HttpServletRequest request, HttpServletResp
 	}
 
 @RequestMapping(value = "gamecreation", method = RequestMethod.GET)
-public @ResponseBody String processAssignment(HttpServletRequest request, HttpServletResponse response, Model model)
+public String processAssignment(HttpServletRequest request, Model model)
 {//This is our game creation page.  Once the user clicks create game, enters gamename and date information.  This will get stored in gametable.
 	//we also want to add the gamemaker into the player table at this point, but code needs work.  Once submitted, user will go to inviteplayerpage.
 	try {
@@ -211,7 +211,7 @@ public @ResponseBody String processAssignment(HttpServletRequest request, HttpSe
 		System.err.println(e.getMessage());
 		}
 
-		return "InvitePlayers";
+		return "InvitePlayersPage";
 
 	}
 //
@@ -259,7 +259,7 @@ public @ResponseBody String processAssignment(HttpServletRequest request, HttpSe
 //	}
 //
 	@RequestMapping(value = "AddPlayerToPlayersTable", method = RequestMethod.GET)
-public String AddPlayersToTable(HttpServletRequest request, HttpServletResponse response, Model model) { 
+public String AddPlayersToTable(HttpServletRequest request, Model model) { 
 	//The gamemaker has created a new game.  They will now invite players	
 	//Need to figure out how to addGameNameIntoPlayerTable
 	try {
