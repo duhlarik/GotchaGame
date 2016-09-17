@@ -1,0 +1,26 @@
+in @RequestMapping playerdashboard
+Connection conn -- changed table name and password
+String query1 -- changed UserNameTable to usernametable
+
+in @RequestMapping Assignments
+Connection conn -- changed GameTestPlayerName to gotchagametestdata and password from Farfel83! to admin
+String query1 -- changed GameTable1 to gametable1
+query1 -- changed PlayerTable1 to playertable1
+
+in @RequestMapping gamecreation
+Connection conn -- changed GameTestPlayerName to gotchagametestdata and password from Farfel83! to admin
+String query1 -- changed GameTable1 to gametable1
+query1 -- changed PlayerTable1 to playertable1
+
+in @RequestMapping AcceptGame
+Connection conn -- changed GameTestPlayerName to gotchagametestdata and password from Farfel83! to admin
+String query1 -- changed PlayerTable1 to playertable1
+
+in @RequestMapping AddPlayerToPlayersTable
+Connection conn -- changed GameTestPlayerName to gotchagametestdata and password from Farfel83! to admin
+String query1 -- changed PlayerTable1 to playertable1
+
+in @RequestMapping StartGame
+Connection conn -- changed GameTestPlayerName to gotchagametestdata and password from Farfel83! to admin
+String query1 -- changed GameTable1 to gametable1
+

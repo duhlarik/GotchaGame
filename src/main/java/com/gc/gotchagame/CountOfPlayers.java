@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Random;
 
 public class CountOfPlayers {
 
@@ -15,18 +14,18 @@ public class CountOfPlayers {
 			return countPlayers();
 		} catch (Exception e) {
 			return -1;
-		}
+		} 
 	}
 
 	public static int countPlayers() throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection cnn = DriverManager.getConnection("jdbc:mysql://localhost:3306/gotchaGame", "gotchaGame",
-				"Il0vethi$g@me!");
-		String numOfItems = "SELECT COUNT(*) FROM PlayerTable1";
+		Connection cnn = DriverManager.getConnection("jdbc:mysql://localhost:3306/gotchagametestdata", "root",
+				"admin");
+		String numOfPlayers = "SELECT COUNT(*) FROM playertable1 WHERE PlayerStatus = 'active'";
 		Statement selectStatement = cnn.createStatement();
-		ResultSet result = selectStatement.executeQuery(numOfItems);
+		ResultSet result = selectStatement.executeQuery(numOfPlayers);
 		result.next();
-		int x = result.getInt(0);
+		int x = result.getInt(1);
 		return x;
 	}
 }
