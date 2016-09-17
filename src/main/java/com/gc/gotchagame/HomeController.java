@@ -261,7 +261,7 @@ public String processAssignment(HttpServletRequest request, HttpServletResponse 
 	@RequestMapping(value = "AddPlayerToPlayersTable", method = RequestMethod.GET)
 public String AddPlayersToTable(HttpServletRequest request, HttpServletResponse response, Model model) { 
 	//The gamemaker has created a new game.  They will now invite players	
-	//Need to figure out how to addGameNameIntoPlayerTable
+	//successfully added to players table
 	try {
 
 String player1 = request.getParameter("player1");
@@ -299,10 +299,47 @@ model.addAttribute("invitedPlayers", ar);
 
 
 @RequestMapping(value = "StartGame", method = RequestMethod.GET)
-public String StartGameAssignments(HttpServletRequest request, Model model)
+public String StartGameAssignments(HttpServletRequest request, HttpServletResponse response, Model model)
 //Game maker will press the start game button and this will trigger assignments.
-{
-	return "playerdashboard";
-}
+{	
+	
+	try {
+
+		HttpSession session1 =request.getSession();
+		String gamename = (String)session1.getAttribute("gamename");
+			Class.forName("com.mysql.jdbc.Driver"); 
+													
+
+			Connection conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/GameTestPlayerName", "root",
+					"Farfel83!");
+
+			String query1 = "UPDATE GameTable1 SET GameStatus='active' WHERE GameName=?";
+
+	
+
+				java.sql.PreparedStatement updateGameStatus = conn
+						.prepareStatement(query1);
+
+				updateGameStatus.setString(1, gamename);
+				
+
+				updateGameStatus.execute();
+
+			
+
+		} catch (Exception e) {
+			System.err.println("Got an exception!");
+			System.err.println(e.getMessage());
+		}
+
+		return "playerdashboard";
+
+	}
+
+	
+	
+	
+
 
 }
