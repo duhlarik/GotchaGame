@@ -126,7 +126,8 @@ li a:hover {
 <br>
 <br>
 <br>
-<h3>A Gotcha Occurred!  Stay Tuned For New Assignments!</h3>
+<h1>${messagewinner}There has been a winner!</h1>
+<h3>${gotchanewassignments} A Gotcha Occurred!  Stay Tuned For New Assignments!</h3>
 
 
 </form>

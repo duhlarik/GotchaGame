@@ -120,6 +120,7 @@ public class HomeController {
 			{//Step 1: game name associated with userNameSession
 				HttpSession session1 = request.getSession();
 				String userNameSession = (String) session1.getAttribute("userNameSession");
+				model.addAttribute("username", userNameSession);
 				Class.forName("com.mysql.jdbc.Driver");
 				Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/GameTestPlayerName", "root",
 						"admin");
@@ -192,8 +193,48 @@ public class HomeController {
 			if ((gameStatus.equalsIgnoreCase("active")) && (playerStatus.equalsIgnoreCase("active")))
 					{
 				// Target, Item, Location
-			query = "SELECT* FROM PlayerTable1 WHERE UserId=?";
-		
+	
+				query = "SELECT Target FROM PlayerTable1 WHERE UserId=?";
+				
+				java.sql.PreparedStatement ps4 = conn.prepareStatement(query);
+			    ps4.setString(1, userNameSession);
+			    System.out.println(ps4);
+			    
+			    // process the results
+			    ResultSet rs4 = ps4.executeQuery();
+			   
+			    String target= " ";
+			   
+			    while ( rs4.next() )
+			    {
+			    	 target = rs4.getString(1);
+
+			    }
+			  
+			    model.addAttribute("target", "Target: " + target);
+			    System.out.println(target);
+				
+			    query = "SELECT Item FROM PlayerTable1 WHERE UserId=?";
+				
+				java.sql.PreparedStatement ps5 = conn.prepareStatement(query);
+			    ps5.setString(1, userNameSession);
+			    System.out.println(ps5);
+			    
+			    // process the results
+			    ResultSet rs5 = ps5.executeQuery();
+			   
+			    String item= " ";
+			   
+			    while ( rs5.next() )
+			    {
+			    	 item = rs5.getString(1);
+
+			    }
+			  
+			    model.addAttribute("item", "Item " + item);
+			    System.out.println(item);
+			/*query = "SELECT Target, Item, Location FROM PlayerTable1 WHERE UserId=?";
+				
 			java.sql.PreparedStatement ps4 = conn.prepareStatement(query);
 			ps4.setString(1, userNameSession);
 		    System.out.println(ps4);
@@ -202,6 +243,139 @@ public class HomeController {
 					String target = "";
 					String location = "";
 					String item = "";
+					
+					while (rs4.next()) {
+			
+						target = rs4.getString("Target");
+						location = rs4.getString("Location");
+						item = rs4.getString("Item");
+					}
+
+						model.addAttribute("target", target);
+						model.addAttribute("location", location);
+						model.addAttribute("item", item);
+					
+		
+					System.out.println(target);
+					
+					*/
+					}
+
+				else {
+					String messageNoAssignment = "You have no current games";
+					model.addAttribute("nullmessage", messageNoAssignment);
+					
+				}
+			}
+
+			 catch (Exception e) {
+				System.err.println("Got an exception!");
+				System.err.println(e.getMessage());
+			}
+
+			return "ActiveGames";
+		}
+		}
+
+	@RequestMapping(value = "GotchaShuffleAssignments", method = RequestMethod.GET)
+	public String playerClicksonGotchaButton(HttpServletRequest request, HttpServletResponse response, Model model) {
+		// when player clicks on gotcha button on active page, this will go to gotcha page
+		// multiple steps need to happen
+		// Step 1: We will know the username, so we need to extract their target 
+		// Step 2: We will set the userid that matches the target to inactive status and ally of usernamesession
+		// Step 3: We will check the number of active players
+		// Step 4: If 1, winner message, if more than 1, reshuffle
+		
+		{					  
+			try
+			{//Step 1: target associated with userNameSession
+				HttpSession session1 = request.getSession();
+				String userNameSession = (String) session1.getAttribute("userNameSession");
+				model.addAttribute("username", userNameSession);
+				Class.forName("com.mysql.jdbc.Driver");
+				Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/GameTestPlayerName", "root",
+						"admin");
+				String query = "SELECT Target FROM PlayerTable1 WHERE UserId=?";
+			
+				java.sql.PreparedStatement ps = conn.prepareStatement(query);
+			    ps.setString(1, userNameSession);
+			    System.out.println(ps);
+			    
+			    // process the results
+			    ResultSet rs = ps.executeQuery();
+			   
+			    String targetOfGotcha= " ";
+			   
+			    while ( rs.next() )
+			    {
+			    	 targetOfGotcha = rs.getString(1);
+
+			    }
+			  
+			    model.addAttribute("targetwhogotgot", targetOfGotcha);
+			    System.out.println(targetOfGotcha);
+				
+				//Step 2: game status of game name associated with userNameSession
+			
+			
+				/*query = "SELECT GameStatus FROM GameTable1 WHERE GameName=?";
+			
+				java.sql.PreparedStatement ps2 = conn.prepareStatement(query);
+			    ps2.setString(1, gameName);
+			    System.out.println(ps2);
+			    
+			    // process the results
+			    ResultSet rs2 = ps2.executeQuery();
+			   
+			    String gameStatus= " ";
+			   
+			    while ( rs2.next() )
+			    {
+			    	 gameStatus = rs2.getString(1);			    
+			
+			    }
+			    System.out.println(gameStatus);
+			    model.addAttribute("gameStatus", gameStatus);
+			  
+			    query = "SELECT PlayerStatus FROM PlayerTable1 WHERE UserId=?";
+				
+				java.sql.PreparedStatement ps3 = conn.prepareStatement(query);
+			    ps3.setString(1, userNameSession);
+			    System.out.println(ps3);
+			    
+			    // process the results
+			    ResultSet rs3 = ps3.executeQuery();
+			   
+			    String playerStatus= " ";
+			    
+			    while ( rs3.next() )
+			    {
+			    	 playerStatus = rs3.getString(1);
+			
+			    	  
+			    }
+			  
+			    System.out.println(playerStatus);
+				 
+			    model.addAttribute("playerStatus", playerStatus);
+			  
+		
+			
+			if ((gameStatus.equalsIgnoreCase("active")) && (playerStatus.equalsIgnoreCase("active")))
+					{
+				// Target, Item, Location
+	
+			query = "SELECT Target, Item, Location FROM PlayerTable1 WHERE UserId=?";
+				
+			java.sql.PreparedStatement ps4 = conn.prepareStatement(query);
+			ps4.setString(1, userNameSession);
+		    System.out.println(ps4);
+		   
+					ResultSet rs4 = ps4.executeQuery(query);
+					String target = "";
+					String location = "";
+					String item = "";
+					
 					while (rs4.next()) {
 			
 						target = rs4.getString("Target");
@@ -223,7 +397,7 @@ public class HomeController {
 					String messageNoAssignment = "You have no current games";
 					model.addAttribute("nullmessage", messageNoAssignment);
 					
-				}
+				}*/
 			}
 
 			 catch (Exception e) {
@@ -231,10 +405,12 @@ public class HomeController {
 				System.err.println(e.getMessage());
 			}
 
-			return "ActiveGames";
+			return "Gotcha";
 		}
 		}
 
+	
+	
 	@RequestMapping(value = "GameOverview", method = RequestMethod.GET)
 	public String processGameOverviewClick(HttpServletRequest request,
 			Model model) {

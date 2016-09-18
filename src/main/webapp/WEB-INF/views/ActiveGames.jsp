@@ -123,15 +123,14 @@ li a:hover {
 </ul>
 </header>
 <p>
-<br>
-<br>
-<br>
+
 <h3>${username}'s Mission</h3>
-<h3>Target: ${target} </h3>
+<h3>${target} </h3>
 
-<h3>Item ${item} </h3>
+<h3>Item: ${item} </h3>
 
-<h3>Location ${location} </h3>
+<h3>Location: ${location} </h3>
+<h1>${nullmessage} </h1>
 
 <form action= "GotchaShuffleAssignments" method ="get">
 <input type = "submit"  value="GOTCHA!">
