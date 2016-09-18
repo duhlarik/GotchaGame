@@ -126,6 +126,7 @@ li a:hover {
 <br>
 <br>
 <br>
+<h1>${targetremoved}</h1>
 <h1>${messagewinner}There has been a winner!</h1>
 <h3>${gotchanewassignments} A Gotcha Occurred!  Stay Tuned For New Assignments!</h3>
 

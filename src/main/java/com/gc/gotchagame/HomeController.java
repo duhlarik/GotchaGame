@@ -333,9 +333,65 @@ public class HomeController {
 
 			    }
 			  
-			    model.addAttribute("targetwhogotgot", targetOfGotcha);
+			    model.addAttribute("targetremoved", targetOfGotcha + " has been removed from the game!");
+			  
 			    System.out.println(targetOfGotcha);
 				
+			    //Step 2 change playerstatus of targetofgotcha to inactive
+			  
+
+				query = "UPDATE playertable1 SET PlayerStatus='inactive' WHERE UserId=?";
+
+				java.sql.PreparedStatement updatePlayerStatus = conn
+						.prepareStatement(query);
+
+				updatePlayerStatus.setString(1, targetOfGotcha);
+
+				updatePlayerStatus.execute();
+			    System.out.println(updatePlayerStatus);
+			    
+			    //Step 3: Get GameName
+				query = "SELECT GameName FROM PlayerTable1 WHERE UserId=?";
+				
+				java.sql.PreparedStatement ps2 = conn.prepareStatement(query);
+			    ps2.setString(1, userNameSession);
+			    System.out.println(ps2);
+			    
+			    // process the results
+			    ResultSet rs2 = ps2.executeQuery();
+			   
+			    String gameName= " ";
+			   
+			    while ( rs2.next() )
+			    {
+			    	 gameName = rs2.getString(1);
+
+			    }
+			  
+			    model.addAttribute("gameName", gameName);
+			    
+			    
+			    //Step 4: Check to see how many activeplayers are in the game 
+			 
+			    
+			    query = "SELECT COUNT(*) FROM PlayerTable1 WHERE PlayerStatus=? AND GameName=?";
+				
+				java.sql.PreparedStatement ps3 = conn.prepareStatement(query);
+			    ps3.setString(1, "active");
+			    ps3.setString(2, gameName);
+			    System.out.println(ps3);
+			    
+			    // process the results
+			    ResultSet rs3 = ps3.executeQuery();
+			   
+			    int numberOfActivePlayers;
+			    rs3.next();
+			    int x = rs3.getInt(1);
+			   
+			    System.out.println("Active Players Left in Game" + x );
+				
+			    
+			    
 				//Step 2: game status of game name associated with userNameSession
 			
 			
