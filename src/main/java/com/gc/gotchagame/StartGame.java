@@ -18,50 +18,58 @@ public class StartGame {
 
 			Statement selectStatement = cnn.createStatement();
 
-			String playerQuery = "select userID from playertable1 where PlayerStatus = 'active'";
-
 			ArrayList<String> itemsArray = new ArrayList<String>();
 			ArrayList<String> locationsArray = new ArrayList<String>();
 			ArrayList<String> userIDArray = new ArrayList<String>();
 			ArrayList<String> target = new ArrayList<String>();
-
-			ResultSet playerNames = selectStatement.executeQuery(playerQuery);
-
+			
 			int x = CountOfPlayers.countPlayers();
+			
+			String playerQuery = "select userID from playertable1 where PlayerStatus = 'active'";
+			ResultSet playerNames = selectStatement.executeQuery(playerQuery);
 
 			while (playerNames.next()) {
 
 				String playerName = playerNames.getString("userID");
 				userIDArray.add(playerName);
-
 				target = userIDArray;
 			}
 
-			String locationsQuery = "select Locations from location order by rand() limit'" + x + "'";
-
+			String locationsQuery = "select Locations from location;";
 			ResultSet locationSet = selectStatement.executeQuery(locationsQuery);
 
+			ArrayList<String> lctn = new ArrayList<String>();
 			while (locationSet.next()) {
 
 				String location = locationSet.getString("Locations");
-				locationsArray.add(location);
+				lctn.add(location);
+			}
+			Collections.shuffle(lctn);
+			
+			for (int i = 0; i < x; i++) {
+				locationsArray.add(lctn.get(i));
 			}
 
-			String itemsQuery = "select Items from items order by rand() limit'" + x + "'";
-
+			String itemsQuery = "select Items from items;";
 			ResultSet itemSet = selectStatement.executeQuery(itemsQuery);
 
+			ArrayList<String> itm = new ArrayList<String>();
 			while (itemSet.next()) {
 
 				String item = itemSet.getString("Items");
-				itemsArray.add(item);
+				itm.add(item);
+			}
+			Collections.shuffle(itm);
+			
+			for (int i = 0; i < x; i++) {
+				itemsArray.add(itm.get(i));
 			}
 
 			boolean targetMatchesPlayer = true;
 
 			while (targetMatchesPlayer = true) {
 				Collections.shuffle(target);
-				
+
 				for (int i = 0; i < x; i++) {
 					if (userIDArray.get(i).equalsIgnoreCase(target.get(i))) {
 						targetMatchesPlayer = true;
