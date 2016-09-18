@@ -100,17 +100,17 @@ li a:hover {
 
 	</form></li>
 	
- <li><form action="StartGamePage" method="get">
+  <li><form action="StartGamePage" method="get">
 		<br> 
 		<br> <input type="submit" align="center" value="Start Created Game">
 
 	</form></li>
-	
- <li><form action="ActiveGameShowAssignment" method="get">
+  
+    <li><form action="ActiveGameShowAssignment" method="get">
 		<br> 
 		<br> <input type="submit" align="center" value="Active Games">
 
-	</form></li>
+	</form></li> 
 
   <li><form action="GameInvitations" method="get">
 		<br> 
@@ -123,12 +123,10 @@ li a:hover {
 </ul>
 </header>
 <p>
-<br>
-<br>
-<br>
+
 <h1>${targetremoved}</h1>
-<h1>${messagewinner}There has been a winner!</h1>
-<h3>${gotchanewassignments} A Gotcha Occurred!  Stay Tuned For New Assignments!</h3>
+<h1>${messagenewassignments}</h1>
+<h3>${winner}</h3>
 
 
 </form>

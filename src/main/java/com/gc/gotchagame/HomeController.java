@@ -390,91 +390,21 @@ public class HomeController {
 			   
 			    System.out.println("Active Players Left in Game" + x );
 				
-			    
-			    
-				//Step 2: game status of game name associated with userNameSession
-			
-			
-				/*query = "SELECT GameStatus FROM GameTable1 WHERE GameName=?";
-			
-				java.sql.PreparedStatement ps2 = conn.prepareStatement(query);
-			    ps2.setString(1, gameName);
-			    System.out.println(ps2);
-			    
-			    // process the results
-			    ResultSet rs2 = ps2.executeQuery();
-			   
-			    String gameStatus= " ";
-			   
-			    while ( rs2.next() )
+			    if (x>1)
 			    {
-			    	 gameStatus = rs2.getString(1);			    
-			
+			    	//We need to reshuffle assignments
+			    	 model.addAttribute("messagenewassignments", "Stay Tuned For New Assignments!");
+			    	
 			    }
-			    System.out.println(gameStatus);
-			    model.addAttribute("gameStatus", gameStatus);
-			  
-			    query = "SELECT PlayerStatus FROM PlayerTable1 WHERE UserId=?";
-				
-				java.sql.PreparedStatement ps3 = conn.prepareStatement(query);
-			    ps3.setString(1, userNameSession);
-			    System.out.println(ps3);
 			    
-			    // process the results
-			    ResultSet rs3 = ps3.executeQuery();
-			   
-			    String playerStatus= " ";
-			    
-			    while ( rs3.next() )
+			    else
 			    {
-			    	 playerStatus = rs3.getString(1);
-			
-			    	  
+			    	//If there is only 1 active player less, the person who pressed gotcha is a winner
+			    	 model.addAttribute("winner", "We have a winner!");
+			    	
 			    }
-			  
-			    System.out.println(playerStatus);
-				 
-			    model.addAttribute("playerStatus", playerStatus);
-			  
-		
+			    
 			
-			if ((gameStatus.equalsIgnoreCase("active")) && (playerStatus.equalsIgnoreCase("active")))
-					{
-				// Target, Item, Location
-	
-			query = "SELECT Target, Item, Location FROM PlayerTable1 WHERE UserId=?";
-				
-			java.sql.PreparedStatement ps4 = conn.prepareStatement(query);
-			ps4.setString(1, userNameSession);
-		    System.out.println(ps4);
-		   
-					ResultSet rs4 = ps4.executeQuery(query);
-					String target = "";
-					String location = "";
-					String item = "";
-					
-					while (rs4.next()) {
-			
-						target = rs4.getString("Target");
-						location = rs4.getString("Location");
-						item = rs4.getString("Item");
-					}
-
-						model.addAttribute("target", target);
-						model.addAttribute("location", location);
-						model.addAttribute("item", item);
-					
-		
-					System.out.println(target);
-					
-					
-					}
-
-				else {
-					String messageNoAssignment = "You have no current games";
-					model.addAttribute("nullmessage", messageNoAssignment);
-					
-				}*/
 			}
 
 			 catch (Exception e) {
@@ -495,13 +425,6 @@ public class HomeController {
 		return "GameOverview";
 	}
 
-	// @RequestMapping(value = "StartGameGameMakerPage", method =
-	// RequestMethod.GET)
-	// public String processStartGameClick(HttpServletRequest request, Model
-	// model) {
-
-	// return "StartGame";
-	// }
 
 	@RequestMapping(value = "GotchaGamesCreateGame", method = RequestMethod.GET)
 	public String CreateGamePage(HttpServletRequest request, Model model) {
@@ -645,10 +568,100 @@ public class HomeController {
 			System.err.println(e.getMessage());
 		}
 
-		return "StartGame";
+		return "StartGamePage";
 	}
+	
+	@RequestMapping(value = "StartGamePage", method = RequestMethod.GET)
+	public String playerClicksonStartGame(HttpServletRequest request, HttpServletResponse response, Model model) {
+	//when player clicks on StartGamePage, this page will show a start Game option ONLY IF
+	//the session username is equal to a gamemaker name
+	//AND the gamestatus is inactive
+	//1. we will first track down the gameName associated with the player
+	//2. we will then see who the game maker is and if the game status is active
 
-	@RequestMapping(value = "StartGame", method = RequestMethod.GET)
+		{					  
+				try
+				{//Step 1: game name associated with userNameSession
+					
+					HttpSession session = request.getSession();
+					String userNameSession = (String) session.getAttribute("userNameSession");
+					Class.forName("com.mysql.jdbc.Driver");
+
+					Connection conn = DriverManager.getConnection(
+							"jdbc:mysql://localhost:3306/GameTestPlayerName", "root",
+							"admin");
+
+					
+					
+					String query = "SELECT GameName FROM PlayerTable1 WHERE UserId = ?";
+				
+					
+					
+				    java.sql.PreparedStatement ps = conn.prepareStatement(query);
+				    ps.setString(1, userNameSession);
+				    System.out.println(ps);
+				    
+				    // process the results
+				    ResultSet rs = ps.executeQuery();
+				   
+				    String gameName= " ";
+				   
+				    while ( rs.next() )
+				    {
+				    	 gameName = rs.getString(1);
+
+				    }
+				  
+				    model.addAttribute("gametostart", gameName);
+				  
+				    
+				   
+			  //we will then see who the game maker is
+				   String query1 = "SELECT GameMaker, GameStatus FROM GameTable1 WHERE GameName = ?";
+				    java.sql.PreparedStatement ps1 = conn.prepareStatement(query1);
+				    ps1.setString(1, gameName);
+				    System.out.println(ps1);
+				    
+				    // process the results
+				    ResultSet rs1 = ps1.executeQuery();
+				    String gameMaker= " ";
+				    String gameStatus= "";
+				    //ArrayList <String> test = new ArrayList <> ();  
+				    if(rs1.next())
+				    {
+				    	gameMaker = rs1.getString(1);
+				    	gameStatus = rs1.getString(2);
+				
+				
+				    }
+				   
+				    model.addAttribute("message2", gameMaker);
+				    model.addAttribute("message3", gameStatus);
+				 //check to see if userID = game maker id and if game is not yet active
+				  if (userNameSession.equalsIgnoreCase(gameMaker))
+				  {
+					  
+					  model.addAttribute("StartGame", "Hi Game Maker!  Go Ahead and push the button to start the game!");
+				   
+				  }	  
+				
+				}
+				catch (Exception e) {
+					System.err.println("Got an exception!");
+					System.err.println(e.getMessage());
+				}
+				
+					return "StartGamePage";		
+						
+			
+				}
+			
+	}	  		
+				
+		
+	
+
+	@RequestMapping(value = "StartGameButton", method = RequestMethod.GET)
 	public String StartGameAssignments(HttpServletRequest request,
 			HttpServletResponse response, Model model)
 	/*
