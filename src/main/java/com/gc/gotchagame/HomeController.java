@@ -231,8 +231,29 @@ public class HomeController {
 
 			    }
 			  
-			    model.addAttribute("item", "Item " + item);
+			    model.addAttribute("item", "Item: " + item);
 			    System.out.println(item);
+			    
+			    query = "SELECT Location FROM PlayerTable1 WHERE UserId=?";
+				
+				java.sql.PreparedStatement ps6 = conn.prepareStatement(query);
+			    ps6.setString(1, userNameSession);
+			    System.out.println(ps6);
+			    
+			    // process the results
+			    ResultSet rs6 = ps6.executeQuery();
+			   
+			    String location = " ";
+			   
+			    while ( rs6.next() )
+			    {
+			    	 location = rs6.getString(1);
+
+			    }
+			  
+			    model.addAttribute("location", "Location: " + location);
+			    System.out.println(location);
+			    
 			/*query = "SELECT Target, Item, Location FROM PlayerTable1 WHERE UserId=?";
 				
 			java.sql.PreparedStatement ps4 = conn.prepareStatement(query);

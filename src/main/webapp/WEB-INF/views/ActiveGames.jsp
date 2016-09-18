@@ -127,9 +127,9 @@ li a:hover {
 <h3>${username}'s Mission</h3>
 <h3>${target} </h3>
 
-<h3>Item: ${item} </h3>
+<h3>${item} </h3>
 
-<h3>Location: ${location} </h3>
+<h3>${location} </h3>
 <h1>${nullmessage} </h1>
 
 <form action= "GotchaShuffleAssignments" method ="get">
