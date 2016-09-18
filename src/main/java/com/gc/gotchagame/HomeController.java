@@ -78,7 +78,7 @@ public class HomeController {
 			Class.forName("com.mysql.jdbc.Driver");
 
 			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/gotchagametestdata", "root",
+					"jdbc:mysql://localhost:3306/GameTestPlayerName", "root",
 					"admin");
 
 			String query1 = "INSERT INTO usernametable" + "(UserName) VALUES"
@@ -118,84 +118,111 @@ public class HomeController {
 		{					  
 			try
 			{//Step 1: game name associated with userNameSession
-				
 				HttpSession session1 = request.getSession();
-				String gamename = "Simpsons";
 				String userNameSession = (String) session1.getAttribute("userNameSession");
 				Class.forName("com.mysql.jdbc.Driver");
 				Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/GameTestPlayerName", "root",
 						"admin");
-				String query = "SELECT GameStatus FROM GameTable1 WHERE GameName=?";
+				String query = "SELECT GameName FROM PlayerTable1 WHERE UserId=?";
 			
 				java.sql.PreparedStatement ps = conn.prepareStatement(query);
-			    ps.setString(1, gamename);
+			    ps.setString(1, userNameSession);
 			    System.out.println(ps);
 			    
 			    // process the results
 			    ResultSet rs = ps.executeQuery();
 			   
-			    String gameStatus= " ";
-			    //ArrayList <String> test = new ArrayList <> ();  
+			    String gameName= " ";
+			   
 			    while ( rs.next() )
 			    {
-			    	 gameStatus = rs.getString(1);
-			   //gameName = rs.getString("GameName");
-			    	   
-			    
-			
+			    	 gameName = rs.getString(1);
+
 			    }
 			  
-			    model.addAttribute("message1", gameStatus);
+			    model.addAttribute("gameName", gameName);
+				
+				
+				//Step 2: game status of game name associated with userNameSession
+			
+			
+				query = "SELECT GameStatus FROM GameTable1 WHERE GameName=?";
+			
+				java.sql.PreparedStatement ps2 = conn.prepareStatement(query);
+			    ps2.setString(1, gameName);
+			    System.out.println(ps2);
+			    
+			    // process the results
+			    ResultSet rs2 = ps2.executeQuery();
+			   
+			    String gameStatus= " ";
+			   
+			    while ( rs2.next() )
+			    {
+			    	 gameStatus = rs2.getString(1);			    
+			
+			    }
+			    System.out.println(gameStatus);
+			    model.addAttribute("gameStatus", gameStatus);
 			  
 			    query = "SELECT PlayerStatus FROM PlayerTable1 WHERE UserId=?";
 				
-				java.sql.PreparedStatement ps1 = conn.prepareStatement(query);
-			    ps1.setString(1, userNameSession);
-			    System.out.println(ps1);
+				java.sql.PreparedStatement ps3 = conn.prepareStatement(query);
+			    ps3.setString(1, userNameSession);
+			    System.out.println(ps3);
 			    
 			    // process the results
-			    ResultSet rs1 = ps1.executeQuery();
+			    ResultSet rs3 = ps3.executeQuery();
 			   
 			    String playerStatus= " ";
-			    //ArrayList <String> test = new ArrayList <> ();  
-			    while ( rs.next() )
+			    
+			    while ( rs3.next() )
 			    {
-			    	 playerStatus = rs.getString(1);
+			    	 playerStatus = rs3.getString(1);
 			
 			    	  
 			    }
 			  
-			    model.addAttribute("message2", playerStatus);
+			    System.out.println(playerStatus);
+				 
+			    model.addAttribute("playerStatus", playerStatus);
 			  
 		
 			
-			if ((gameStatus.equalsIgnoreCase("active"))&& playerStatus.equalsIgnoreCase("active"))
+			if ((gameStatus.equalsIgnoreCase("active")) && (playerStatus.equalsIgnoreCase("active")))
 					{
-			query = "SELECT Target, Item, Location FROM PlayerTable1 WHERE UserId=?";
+				// Target, Item, Location
+			query = "SELECT* FROM PlayerTable1 WHERE UserId=?";
 		
-			java.sql.PreparedStatement ps2 = conn.prepareStatement(query);
-		    ps2.setString(2, userNameSession);
-		    System.out.println(ps2);
+			java.sql.PreparedStatement ps4 = conn.prepareStatement(query);
+			ps4.setString(1, userNameSession);
+		    System.out.println(ps4);
 		   
+					ResultSet rs4 = ps4.executeQuery(query);
+					String target = "";
+					String location = "";
+					String item = "";
+					while (rs4.next()) {
+			
+						target = rs4.getString("Target");
+						location = rs4.getString("Location");
+						item = rs4.getString("Item");
+					}
 
-
-					ResultSet rs2 = ps2.executeQuery(query);
-
-					while (rs2.next()) {
-						String userid = rs2.getString("UserId");
-						String target = rs2.getString("Target");
-						String location = rs2.getString("Location");
-						String item = rs2.getString("Item");
-
-						model.addAttribute("userid", userid);
 						model.addAttribute("target", target);
 						model.addAttribute("location", location);
 						model.addAttribute("item", item);
-					}
+					
+		
+					System.out.println(target);
+					
+					
 					}
 
 				else {
 					String messageNoAssignment = "You have no current games";
+					model.addAttribute("nullmessage", messageNoAssignment);
+					
 				}
 			}
 
