@@ -28,7 +28,8 @@ import org.springframework.web.context.request.SessionScope;
 @Controller
 public class HomeController {
 
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(HomeController.class);
 
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -38,7 +39,8 @@ public class HomeController {
 		logger.info("Welcome home! The client locale is {}.", locale);
 
 		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG,
+				DateFormat.LONG, locale);
 
 		String formattedDate = dateFormat.format(date);
 
@@ -60,7 +62,8 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "playerdashboard", method = RequestMethod.GET)
-	public String processSuccessfulLogin(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String processSuccessfulLogin(HttpServletRequest request,
+			HttpServletResponse response, Model model) {
 		// user will go to login, enter username, and password and press login
 		// (with playerdashboard value). if successful, we will go to
 		// playerdashboard
@@ -74,15 +77,18 @@ public class HomeController {
 
 			Class.forName("com.mysql.jdbc.Driver");
 
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/gotchagametestdata", "root",
+			Connection conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/gotchagametestdata", "root",
 					"admin");
 
-			String query1 = "INSERT INTO usernametable" + "(UserName) VALUES" + "(?)";
+			String query1 = "INSERT INTO usernametable" + "(UserName) VALUES"
+					+ "(?)";
 
-			java.sql.PreparedStatement updateGame = conn.prepareStatement(query1);
+			java.sql.PreparedStatement updateGame = conn
+					.prepareStatement(query1);
 			updateGame.setString(1, userNameSession);
 			updateGame.execute();
-			
+
 		} catch (Exception e) {
 			System.err.println("Got an exception!");
 			System.err.println(e.getMessage());
@@ -98,93 +104,125 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "GameInvitations", method = RequestMethod.GET)
-	public String processGameInvitationsClick(HttpServletRequest request, Model model) {
+	public String processGameInvitationsClick(HttpServletRequest request,
+			Model model) {
 
 		return "GameInvitations";
 	}
 
-	@RequestMapping(value = "Assignments", method = RequestMethod.GET)
+	@RequestMapping(value = "ActiveGameShowAssignment", method = RequestMethod.GET)
 	public String playerClicksonActiveGames(HttpServletRequest request, HttpServletResponse response, Model model) {
 		// when player clicks on active game, this page will show an assignment
 		// for the specific user if the PlayerStatus is active, GameStatus is active.
-		{
-			try {
+		
+		{					  
+			try
+			{//Step 1: game name associated with userNameSession
+				
 				HttpSession session1 = request.getSession();
-				String gamename = (String) session1.getAttribute("gamename");
+				String gamename = "Simpsons";
 				String userNameSession = (String) session1.getAttribute("userNameSession");
 				Class.forName("com.mysql.jdbc.Driver");
-				Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/gotchagametestdata", "root",
+				Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/GameTestPlayerName", "root",
 						"admin");
+				String query = "SELECT GameStatus FROM GameTable1 WHERE GameName=?";
+			
+				java.sql.PreparedStatement ps = conn.prepareStatement(query);
+			    ps.setString(1, gamename);
+			    System.out.println(ps);
+			    
+			    // process the results
+			    ResultSet rs = ps.executeQuery();
+			   
+			    String gameStatus= " ";
+			    //ArrayList <String> test = new ArrayList <> ();  
+			    while ( rs.next() )
+			    {
+			    	 gameStatus = rs.getString(1);
+			   //gameName = rs.getString("GameName");
+			    	   
+			    
+			
+			    }
+			  
+			    model.addAttribute("message1", gameStatus);
+			  
+			    query = "SELECT PlayerStatus FROM PlayerTable1 WHERE UserId=?";
+				
+				java.sql.PreparedStatement ps1 = conn.prepareStatement(query);
+			    ps1.setString(1, userNameSession);
+			    System.out.println(ps1);
+			    
+			    // process the results
+			    ResultSet rs1 = ps1.executeQuery();
+			   
+			    String playerStatus= " ";
+			    //ArrayList <String> test = new ArrayList <> ();  
+			    while ( rs.next() )
+			    {
+			    	 playerStatus = rs.getString(1);
+			
+			    	  
+			    }
+			  
+			    model.addAttribute("message2", playerStatus);
+			  
+		
+			
+			if ((gameStatus.equalsIgnoreCase("active"))&& playerStatus.equalsIgnoreCase("active"))
+					{
+			query = "SELECT Target, Item, Location FROM PlayerTable1 WHERE UserId=?";
+		
+			java.sql.PreparedStatement ps2 = conn.prepareStatement(query);
+		    ps2.setString(2, userNameSession);
+		    System.out.println(ps2);
+		   
 
-				String query1 = "Select GameStatus from gametable1 WHERE GameName=?";
 
-				java.sql.PreparedStatement getGameStatus = conn.prepareStatement(query1);
+					ResultSet rs2 = ps2.executeQuery(query);
 
-				getGameStatus.setString(1, gamename);
-				ResultSet rs = getGameStatus.executeQuery(query1);
-				String getgamestat = "";
-				while (rs.next()) {
-					getgamestat = rs.getString("GameStatus");
-				}
-
-				query1 = "Select PlayerStatus from playertable1 WHERE UserId=?";
-
-				java.sql.PreparedStatement getPlayerStatus = conn.prepareStatement(query1);
-
-				getPlayerStatus.setString(1, userNameSession);
-				ResultSet rs2 = getPlayerStatus.executeQuery(query1);
-				String getplayerstat = "";
-				while (rs2.next()) {
-					getplayerstat = rs.getString("PlayerStatus");
-				}
-
-				// if player is active and game is active, we want to query for their assignment
-				if (getplayerstat.equalsIgnoreCase("active") && getgamestat.equalsIgnoreCase("active")) {
-					query1 = "Select * from playertable1 WHERE UserId=?";
-
-					java.sql.PreparedStatement getPlayerAssignment = conn.prepareStatement(query1);
-
-					getPlayerAssignment.setString(1, userNameSession);
-					ResultSet rs3 = getPlayerAssignment.executeQuery(query1);
-
-					while (rs3.next()) {
-						String userid = rs.getString("UserId");
-						String target = rs.getString("Target");
-						String location = rs.getString("Location");
-						String item = rs.getString("Item");
+					while (rs2.next()) {
+						String userid = rs2.getString("UserId");
+						String target = rs2.getString("Target");
+						String location = rs2.getString("Location");
+						String item = rs2.getString("Item");
 
 						model.addAttribute("userid", userid);
 						model.addAttribute("target", target);
 						model.addAttribute("location", location);
 						model.addAttribute("item", item);
 					}
-				}
+					}
 
 				else {
 					String messageNoAssignment = "You have no current games";
 				}
+			}
 
-			} catch (Exception e) {
+			 catch (Exception e) {
 				System.err.println("Got an exception!");
 				System.err.println(e.getMessage());
 			}
 
 			return "ActiveGames";
 		}
-	}
+		}
 
 	@RequestMapping(value = "GameOverview", method = RequestMethod.GET)
-	public String processGameOverviewClick(HttpServletRequest request, Model model) {
+	public String processGameOverviewClick(HttpServletRequest request,
+			Model model) {
 		// navigation bar click on Game Overview and go to game overview page
 		return "GameOverview";
 	}
-	
-	// @RequestMapping(value = "StartGameGameMakerPage", method = RequestMethod.GET)
-	// public String processStartGameClick(HttpServletRequest request, Model model) {
-	
+
+	// @RequestMapping(value = "StartGameGameMakerPage", method =
+	// RequestMethod.GET)
+	// public String processStartGameClick(HttpServletRequest request, Model
+	// model) {
+
 	// return "StartGame";
 	// }
-	
+
 	@RequestMapping(value = "GotchaGamesCreateGame", method = RequestMethod.GET)
 	public String CreateGamePage(HttpServletRequest request, Model model) {
 		// navigation bar, brings to CreateGamePage
@@ -192,7 +230,8 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "gamecreation", method = RequestMethod.GET)
-	public String processAssignment(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String processAssignment(HttpServletRequest request,
+			HttpServletResponse response, Model model) {
 		/*
 		 * This is our game creation page. Once the user clicks create game,
 		 * enters gamename and date information. This will get stored in
@@ -207,7 +246,8 @@ public class HomeController {
 			String startDate = request.getParameter("startdate");
 			String endDate = request.getParameter("enddate");
 
-			String userNameSession = (String) session.getAttribute("userNameSession");
+			String userNameSession = (String) session
+					.getAttribute("userNameSession");
 			// String gameMakerUserName = request.getParameter("gamecreatedby");
 			// Object value = request.getSession().getAttribute("username");
 			// String gameMakerUserName = (String) value;
@@ -218,13 +258,16 @@ public class HomeController {
 			Class.forName("com.mysql.jdbc.Driver");
 			// the connection is an example of the factory design pattern
 
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/gotchagametestdata", "root",
+			Connection conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/gotchagametestdata", "root",
 					"admin");
 
-			String query1 = "INSERT INTO gametable1" + "(GameName,StartDate,EndDate,GameMakerUserName) VALUES"
+			String query1 = "INSERT INTO gametable1"
+					+ "(GameName,StartDate,EndDate,GameMakerUserName) VALUES"
 					+ "(?,?,?,?)";
 
-			java.sql.PreparedStatement updateGame = conn.prepareStatement(query1);
+			java.sql.PreparedStatement updateGame = conn
+					.prepareStatement(query1);
 			updateGame.setString(1, gamename);
 			updateGame.setString(2, startDate);
 			updateGame.setString(3, endDate);
@@ -232,9 +275,11 @@ public class HomeController {
 
 			updateGame.execute();
 
-			query1 = "INSERT INTO playertable1" + "(PlayerNumber,UserId,GameName) VALUES" + "(?,?,?)";
+			query1 = "INSERT INTO playertable1"
+					+ "(PlayerNumber,UserId,GameName) VALUES" + "(?,?,?)";
 
-			java.sql.PreparedStatement addPlayerToPlayersTable = conn.prepareStatement(query1);
+			java.sql.PreparedStatement addPlayerToPlayersTable = conn
+					.prepareStatement(query1);
 			addPlayerToPlayersTable.setInt(1, 1);
 			addPlayerToPlayersTable.setString(2, userNameSession);
 			addPlayerToPlayersTable.setString(3, gamename);
@@ -249,21 +294,25 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "AcceptGame", method = RequestMethod.GET)
-	public String playersAccepted(HttpServletRequest request, HttpServletResponse response, Model model)
+	public String playersAccepted(HttpServletRequest request,
+			HttpServletResponse response, Model model)
 
 	{
 		try {
 
 			HttpSession session = request.getSession();
-			String userNameSession = (String) session.getAttribute("userNameSession");
+			String userNameSession = (String) session
+					.getAttribute("userNameSession");
 			Class.forName("com.mysql.jdbc.Driver");
 
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/gotchagametestdata", "root",
+			Connection conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/gotchagametestdata", "root",
 					"admin");
 
 			String query1 = "UPDATE playertable1 SET PlayerStatus='active' WHERE UserId=?";
 
-			java.sql.PreparedStatement updatePlayerStatus = conn.prepareStatement(query1);
+			java.sql.PreparedStatement updatePlayerStatus = conn
+					.prepareStatement(query1);
 
 			updatePlayerStatus.setString(1, userNameSession);
 
@@ -278,7 +327,8 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "AddPlayerToPlayersTable", method = RequestMethod.GET)
-	public String AddPlayersToTable(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String AddPlayersToTable(HttpServletRequest request,
+			HttpServletResponse response, Model model) {
 		/*
 		 * The gamemaker has created a new game. They will now invite players
 		 * successfully added to players table
@@ -295,13 +345,16 @@ public class HomeController {
 
 			Class.forName("com.mysql.jdbc.Driver");
 
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/gotchagametestdata", "root",
+			Connection conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/gotchagametestdata", "root",
 					"admin");
 
-			String query1 = "INSERT INTO playertable1" + "(PlayerNumber,UserId,GameName) VALUES" + "(?,?,?)";
+			String query1 = "INSERT INTO playertable1"
+					+ "(PlayerNumber,UserId,GameName) VALUES" + "(?,?,?)";
 
 			for (int i = 0; i < ar.length; i++) {
-				java.sql.PreparedStatement addPlayerToPlayersTable = conn.prepareStatement(query1);
+				java.sql.PreparedStatement addPlayerToPlayersTable = conn
+						.prepareStatement(query1);
 				addPlayerToPlayersTable.setInt(1, i + 2);
 				addPlayerToPlayersTable.setString(2, ar[i]);
 				addPlayerToPlayersTable.setString(3, gamename);
@@ -316,7 +369,8 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "StartGame", method = RequestMethod.GET)
-	public String StartGameAssignments(HttpServletRequest request, HttpServletResponse response, Model model)
+	public String StartGameAssignments(HttpServletRequest request,
+			HttpServletResponse response, Model model)
 	/*
 	 * Game maker will press the start game button and this will trigger
 	 * assignments. Need to add the logic to trigger assignments for players
@@ -330,12 +384,14 @@ public class HomeController {
 			String gamename = (String) session1.getAttribute("gamename");
 			Class.forName("com.mysql.jdbc.Driver");
 
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/gotchagametestdata", "root",
-					"admin");
+			Connection conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/GameTestPlayerName", "root",
+					"Farfel83!");
 
 			String query1 = "UPDATE gametable1 SET GameStatus='active' WHERE GameName=?";
 
-			java.sql.PreparedStatement updateGameStatus = conn.prepareStatement(query1);
+			java.sql.PreparedStatement updateGameStatus = conn
+					.prepareStatement(query1);
 
 			updateGameStatus.setString(1, gamename);
 

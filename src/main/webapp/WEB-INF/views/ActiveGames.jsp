@@ -100,13 +100,13 @@ li a:hover {
 
 	</form></li>
 	
-  <li><form action="StartGameGameMakerPage" method="get">
+  <li><form action="StartGamePage" method="get">
 		<br> 
 		<br> <input type="submit" align="center" value="Start Created Game">
 
 	</form></li>
   
-  <li><form action="Assignments" method="get">
+  <li><form action="ActiveGameShowAssignment" method="get">
 		<br> 
 		<br> <input type="submit" align="center" value="Active Games">
 
@@ -126,14 +126,14 @@ li a:hover {
 <br>
 <br>
 <br>
-<h3> 's Mission</h3>
+<h3>${username}'s Mission</h3>
 <h3>Target: ${target} </h3>
 
 <h3>Item ${item} </h3>
 
 <h3>Location ${location} </h3>
 
-<form action= "newassignments" method ="get">
+<form action= "GotchaShuffleAssignments" method ="get">
 <input type = "submit"  value="GOTCHA!">
 
 </form>
