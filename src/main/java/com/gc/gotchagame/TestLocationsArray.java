@@ -33,7 +33,16 @@ public class TestLocationsArray {
 		for (int i = 0; i < x; i++) {
 			locationsArray.add(lctn.get(i));
 		}
-
-		System.out.println(locationsArray);
+		
+		for (int i = 0; i < x; i++) {
+			String query = "UPDATE playertable1 SET Location=?;";
+			java.sql.PreparedStatement addAssignmentToPlayersTable = cnn.prepareStatement(query);
+			//addAssignmentToPlayersTable.setString(1, target.get(i));
+			addAssignmentToPlayersTable.setString(1, locationsArray.get(i));
+			//addAssignmentToPlayersTable.setString(3, itemsArray.get(i));
+			//addAssignmentToPlayersTable.setString(2, userIDArray.get(i));
+			addAssignmentToPlayersTable.executeUpdate();
+			System.out.println(addAssignmentToPlayersTable);
+		}
 	}
 }

@@ -22,18 +22,9 @@ public class StartGame {
 			ArrayList<String> locationsArray = new ArrayList<String>();
 			ArrayList<String> userIDArray = new ArrayList<String>();
 			ArrayList<String> target = new ArrayList<String>();
-			
+
 			int x = CountOfPlayers.countPlayers();
-			
-			String playerQuery = "select userID from playertable1 where PlayerStatus = 'active'";
-			ResultSet playerNames = selectStatement.executeQuery(playerQuery);
-
-			while (playerNames.next()) {
-
-				String playerName = playerNames.getString("userID");
-				userIDArray.add(playerName);
-				target = userIDArray;
-			}
+			int i = 0;
 
 			String locationsQuery = "select Locations from location;";
 			ResultSet locationSet = selectStatement.executeQuery(locationsQuery);
@@ -45,8 +36,8 @@ public class StartGame {
 				lctn.add(location);
 			}
 			Collections.shuffle(lctn);
-			
-			for (int i = 0; i < x; i++) {
+
+			for (i = 0; i < x; i++) {
 				locationsArray.add(lctn.get(i));
 			}
 
@@ -60,28 +51,41 @@ public class StartGame {
 				itm.add(item);
 			}
 			Collections.shuffle(itm);
-			
-			for (int i = 0; i < x; i++) {
+
+			for (i = 0; i < x; i++) {
 				itemsArray.add(itm.get(i));
 			}
 
-			boolean targetMatchesPlayer = true;
+			String playerQuery = "select UserId from playertable1 where PlayerStatus = 'active'";
+			ResultSet playerNames = selectStatement.executeQuery(playerQuery);
 
-			while (targetMatchesPlayer = true) {
-				Collections.shuffle(target);
+			while (playerNames.next()) {
 
-				for (int i = 0; i < x; i++) {
+				String playerName = playerNames.getString("UserId");
+				userIDArray.add(playerName);
+			}
+
+			for (i = 0; i < x; i++) {
+				target.add(userIDArray.get(i));
+			}
+
+			boolean arraysAreDifferent = false;
+
+			Collections.shuffle(target);
+			
+			while (arraysAreDifferent == false) {
+				for (i = 0; i < x; i++) {
 					if (userIDArray.get(i).equalsIgnoreCase(target.get(i))) {
-						targetMatchesPlayer = true;
 						Collections.shuffle(target);
-					} else {
-						targetMatchesPlayer = false;
+						break;
 					}
 				}
+				if (i == x)
+					arraysAreDifferent = true;
 			}
-			while (targetMatchesPlayer = false) {
+			while (arraysAreDifferent = true) {
 
-				for (int i = 0; i < x; i++) {
+				for (i = 0; i < x; i++) {
 					String query = "UPDATE playertable1 SET Target=?, Location=?, Item = ? WHERE UserId=?";
 					java.sql.PreparedStatement addAssignmentToPlayersTable = cnn.prepareStatement(query);
 					addAssignmentToPlayersTable.setString(1, target.get(i));
@@ -92,7 +96,7 @@ public class StartGame {
 				}
 			}
 		} catch (Exception e) {
-
+			
 		}
 	}
 }
