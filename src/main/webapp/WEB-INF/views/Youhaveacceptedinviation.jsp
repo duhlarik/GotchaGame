@@ -101,7 +101,7 @@ li a:hover {
 
 	</form></li>
 	
-  <li><form action="StartGamePage" method="get">
+  <li><form action="StartGamePageTest" method="get">
 		<br> 
 		<br> <input type="submit" align="center" value="Start Created Game">
 
@@ -113,15 +113,16 @@ li a:hover {
 
 	</form></li> 
 
-  <li><form action="GameInvitations" method="get">
+  <li><form action="GameInvitationPage" method="get">
 		<br> 
-		<br> <input type="submit" align="center" value="Game Invitations">
+		<br> <input type="submit" align="center" value="GameInvitationPage">
 
 	</form></li>
 	
 
 
 </ul>
+
 </header>
 <h1> You have accepted a game invitation!</h1>
 <h3>You will see your assignment on the "Active Games"" Page when the Game Maker Starts the Game!</h3>
