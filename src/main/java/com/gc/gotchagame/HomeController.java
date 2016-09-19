@@ -702,7 +702,7 @@ public class HomeController {
 				    }
 				  
 				    model.addAttribute("gametostart", gameName);
-				    session.setAttribute("gametostart", gameName);
+				    session.setAttribute("gamethatwillbeupdatedtoactive", gameName);
 				    
 				    
 				   
@@ -868,7 +868,7 @@ public class HomeController {
 		try {
 
 			HttpSession session = request.getSession();
-			String gamename = (String) session.getAttribute("gamename");
+			String gameNameToStart = (String) session.getAttribute("gamethatwillbeupdatedtoactive");
 			Class.forName("com.mysql.jdbc.Driver");
 
 			Connection conn = DriverManager.getConnection(
@@ -879,9 +879,9 @@ public class HomeController {
 
 			java.sql.PreparedStatement updateGameStatus = conn
 					.prepareStatement(query1);
-
-			updateGameStatus.setString(1, gamename);
-
+			
+			updateGameStatus.setString(1, gameNameToStart);
+			System.out.println(updateGameStatus);
 			updateGameStatus.execute();
 
 		} catch (Exception e) {
