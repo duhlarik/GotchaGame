@@ -100,7 +100,7 @@ li a:hover {
 
 	</form></li>
 	
-  <li><form action="StartGamePageTest" method="get">
+  <li><form action="StartGamePage" method="get">
 		<br> 
 		<br> <input type="submit" align="center" value="Start Created Game">
 
@@ -112,9 +112,9 @@ li a:hover {
 
 	</form></li> 
 
-  <li><form action="GameInvitationPage" method="get">
+  <li><form action="GameInvitations" method="get">
 		<br> 
-		<br> <input type="submit" align="center" value="GameInvitationPage">
+		<br> <input type="submit" align="center" value="Game Invitations">
 
 	</form></li>
 	
@@ -122,6 +122,9 @@ li a:hover {
 
 </ul>
 
+
+
+</ul>
 
 </header>
 

@@ -101,7 +101,7 @@ li a:hover {
 
 	</form></li>
 	
-  <li><form action="StartGamePageTest" method="get">
+  <li><form action="StartGamePage" method="get">
 		<br> 
 		<br> <input type="submit" align="center" value="Start Created Game">
 
@@ -113,16 +113,15 @@ li a:hover {
 
 	</form></li> 
 
-  <li><form action="GameInvitationPage" method="get">
+  <li><form action="GameInvitations" method="get">
 		<br> 
-		<br> <input type="submit" align="center" value="GameInvitationPage">
+		<br> <input type="submit" align="center" value="Game Invitations">
 
 	</form></li>
 	
 
 
 </ul>
-
 </header>
 <h1>You started your game ${gametostart}! </h1>
 <h3>You will see your assignment on the "Active Games" Page.  Let the Gotchaing begin!</h3>
