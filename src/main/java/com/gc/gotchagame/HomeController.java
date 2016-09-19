@@ -614,7 +614,8 @@ public class HomeController {
 				    }
 				  
 				    model.addAttribute("gametostart", gameName);
-				  
+					
+					session.setAttribute("gametostart", gameName);
 				    
 				   
 			  //we will then see who the game maker is
@@ -677,8 +678,7 @@ public class HomeController {
 					Class.forName("com.mysql.jdbc.Driver");
 
 					Connection conn = DriverManager.getConnection(
-							"jdbc:mysql://localhost:3306/GameTestPlayerName", "root",
-							"admin");
+							"jdbc:mysql://localhost:3306/GameTestPlayerName", "root","admin");
 
 					
 					
@@ -702,7 +702,8 @@ public class HomeController {
 				    }
 				  
 				    model.addAttribute("gametostart", gameName);
-				  
+				    session.setAttribute("gametostart", gameName);
+				    
 				    
 				   
 			  //we will then see who the game maker is
@@ -715,7 +716,7 @@ public class HomeController {
 				    ResultSet rs1 = ps1.executeQuery();
 				    String gameMaker= " ";
 				    String gameStatus= "";
-				    //ArrayList <String> test = new ArrayList <> ();  
+			 
 				    if(rs1.next())
 				    {
 				    	gameMaker = rs1.getString(1);
@@ -723,14 +724,15 @@ public class HomeController {
 				
 				
 				    }
-				   
+				    System.out.println("The gameMaker is" + gameMaker);
+				    System.out.println("The gameStatus is " + gameStatus);
 				    model.addAttribute("message2", gameMaker);
 				    model.addAttribute("message3", gameStatus);
 				 //check to see if userID = game maker id and if game is not yet active
 				  if ((userNameSession.equalsIgnoreCase(gameMaker)) && !(gameStatus.equalsIgnoreCase("active")))
 				  {
 					  
-					  model.addAttribute("StartGame", "Hi Game Maker!  Go Ahead and push the button to start the game!");
+					  model.addAttribute("StartGame", "Hi Game Maker!  Go Ahead and push the button to start your game: " + gameName +"!");
 					 option = "true";
 				  }	  
 				  
@@ -865,13 +867,13 @@ public class HomeController {
 
 		try {
 
-			HttpSession session1 = request.getSession();
-			String gamename = (String) session1.getAttribute("gamename");
+			HttpSession session = request.getSession();
+			String gamename = (String) session.getAttribute("gamename");
 			Class.forName("com.mysql.jdbc.Driver");
 
 			Connection conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/GameTestPlayerName", "root",
-					"Farfel83!");
+					"admin");
 
 			String query1 = "UPDATE gametable1 SET GameStatus='active' WHERE GameName=?";
 
@@ -887,6 +889,6 @@ public class HomeController {
 			System.err.println(e.getMessage());
 		}
 
-		return "playerdashboard";
+		return "YouStartedAGame";
 	}
 }

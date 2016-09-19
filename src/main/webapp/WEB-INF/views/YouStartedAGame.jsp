@@ -1,12 +1,14 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="true" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ page session="true"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
 
 
 
 <head>
-   <title>Gotcha Game</title>
+	   <title>Gotcha Game</title>
 
     <meta name="Gotcha Game" content="An interactive game where players eliminate other players by getting them to hold a specified item at a specified location.  Users will be able to get their spy on and take out targets.  Instagram integration is used to create a running record of the games events.  Are you ready to get or be got?">
 <!-- Latest compiled and minified CSS -->
@@ -77,12 +79,10 @@ li a:hover {
 <header>
 
 <h1>Gotcha!</h1>
-<h3>Get or Be Got</h3>
+<h3>Game Invitations</h3>
 
 
 </header>
-
-
 <ul>
 
 <li><form action="GameOverview" method="get">
@@ -101,7 +101,7 @@ li a:hover {
 
 	</form></li>
 	
-  <li><form action="StartGamePageTest" method="get">
+  <li><form action="StartGamePage" method="get">
 		<br> 
 		<br> <input type="submit" align="center" value="Start Created Game">
 
@@ -113,35 +113,18 @@ li a:hover {
 
 	</form></li> 
 
-  <li><form action="GameInvitationPage" method="get">
+  <li><form action="GameInvitations" method="get">
 		<br> 
-		<br> <input type="submit" align="center" value="GameInvitationPage">
+		<br> <input type="submit" align="center" value="Game Invitations">
 
 	</form></li>
 	
 
 
 </ul>
-
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<p>
-	   "Life is more fun 
-    <br>
-    if you play games"
-    <br>
-    <br>
-Roald Dahl
-	<br>
-</p>
-
-
+</header>
+<h1>You started your game ${gametostart}! </h1>
+<h3>You will see your assignment on the "Active Games" Page.  Let the Gotchaing begin!</h3>
 
 
 
