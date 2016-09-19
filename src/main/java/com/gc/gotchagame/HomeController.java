@@ -462,12 +462,12 @@ public class HomeController {
 			// the connection is an example of the factory design pattern
 
 			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/gotchagametestdata", "root",
+					"jdbc:mysql://localhost:3306/GameTestPlayerName", "root",
 					"admin");
 
 			String query1 = "INSERT INTO gametable1"
-					+ "(GameName,StartDate,EndDate,GameMakerUserName) VALUES"
-					+ "(?,?,?,?)";
+					+ "(GameName,StartDate,EndDate,GameMaker, GameStatus) VALUES"
+					+ "(?,?,?,?,?)";
 
 			java.sql.PreparedStatement updateGame = conn
 					.prepareStatement(query1);
@@ -475,17 +475,18 @@ public class HomeController {
 			updateGame.setString(2, startDate);
 			updateGame.setString(3, endDate);
 			updateGame.setString(4, userNameSession);
-
+			updateGame.setString(5, "inactive");
 			updateGame.execute();
 
 			query1 = "INSERT INTO playertable1"
-					+ "(PlayerNumber,UserId,GameName) VALUES" + "(?,?,?)";
+					+ "(PlayerNumber,UserId,GameName,PlayerStatus) VALUES" + "(?,?,?,?)";
 
 			java.sql.PreparedStatement addPlayerToPlayersTable = conn
 					.prepareStatement(query1);
 			addPlayerToPlayersTable.setInt(1, 1);
 			addPlayerToPlayersTable.setString(2, userNameSession);
 			addPlayerToPlayersTable.setString(3, gamename);
+			addPlayerToPlayersTable.setString(4, "active");
 			addPlayerToPlayersTable.execute();
 
 		} catch (Exception e) {
@@ -504,12 +505,11 @@ public class HomeController {
 		try {
 
 			HttpSession session = request.getSession();
-			String userNameSession = (String) session
-					.getAttribute("userNameSession");
+			String userNameSession = (String) session.getAttribute("userNameSession");
 			Class.forName("com.mysql.jdbc.Driver");
 
 			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/gotchagametestdata", "root",
+					"jdbc:mysql://localhost:3306/GameTestPlayerName", "root",
 					"admin");
 
 			String query1 = "UPDATE playertable1 SET PlayerStatus='active' WHERE UserId=?";
@@ -549,11 +549,11 @@ public class HomeController {
 			Class.forName("com.mysql.jdbc.Driver");
 
 			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/gotchagametestdata", "root",
+					"jdbc:mysql://localhost:3306/GameTestPlayerName", "root",
 					"admin");
 
 			String query1 = "INSERT INTO playertable1"
-					+ "(PlayerNumber,UserId,GameName) VALUES" + "(?,?,?)";
+					+ "(PlayerNumber,UserId,GameName,PlayerStatus) VALUES" + "(?,?,?,?)";
 
 			for (int i = 0; i < ar.length; i++) {
 				java.sql.PreparedStatement addPlayerToPlayersTable = conn
@@ -561,6 +561,7 @@ public class HomeController {
 				addPlayerToPlayersTable.setInt(1, i + 2);
 				addPlayerToPlayersTable.setString(2, ar[i]);
 				addPlayerToPlayersTable.setString(3, gamename);
+				addPlayerToPlayersTable.setString(4, "inactive");
 				addPlayerToPlayersTable.execute();
 			}
 		} catch (Exception e) {
@@ -659,7 +660,198 @@ public class HomeController {
 	}	  		
 				
 		
-	
+	@RequestMapping(value = "StartGamePageTest", method = RequestMethod.GET)
+	public String playerClicksonStartGameInNavigationBar(HttpServletRequest request, HttpServletResponse response, Model model) {
+	//when player clicks on StartGamePage, this page will show a start Game option ONLY IF
+	//the session username is equal to a gamemaker name
+	//AND the gamestatus is inactive
+	//1. we will first track down the gameName associated with the player
+	//2. we will then see who the game maker is and if the game status is active
+
+		{		String option = "";			  
+				try
+				{//Step 1: game name associated with userNameSession
+					
+					HttpSession session = request.getSession();
+					String userNameSession = (String) session.getAttribute("userNameSession");
+					Class.forName("com.mysql.jdbc.Driver");
+
+					Connection conn = DriverManager.getConnection(
+							"jdbc:mysql://localhost:3306/GameTestPlayerName", "root",
+							"admin");
+
+					
+					
+					String query = "SELECT GameName FROM PlayerTable1 WHERE UserId = ?";
+				
+					
+					
+				    java.sql.PreparedStatement ps = conn.prepareStatement(query);
+				    ps.setString(1, userNameSession);
+				    System.out.println(ps);
+				    
+				    // process the results
+				    ResultSet rs = ps.executeQuery();
+				   
+				    String gameName= " ";
+				   
+				    while ( rs.next() )
+				    {
+				    	 gameName = rs.getString(1);
+
+				    }
+				  
+				    model.addAttribute("gametostart", gameName);
+				  
+				    
+				   
+			  //we will then see who the game maker is
+				   String query1 = "SELECT GameMaker, GameStatus FROM GameTable1 WHERE GameName = ?";
+				    java.sql.PreparedStatement ps1 = conn.prepareStatement(query1);
+				    ps1.setString(1, gameName);
+				    System.out.println(ps1);
+				    
+				    // process the results
+				    ResultSet rs1 = ps1.executeQuery();
+				    String gameMaker= " ";
+				    String gameStatus= "";
+				    //ArrayList <String> test = new ArrayList <> ();  
+				    if(rs1.next())
+				    {
+				    	gameMaker = rs1.getString(1);
+				    	gameStatus = rs1.getString(2);
+				
+				
+				    }
+				   
+				    model.addAttribute("message2", gameMaker);
+				    model.addAttribute("message3", gameStatus);
+				 //check to see if userID = game maker id and if game is not yet active
+				  if ((userNameSession.equalsIgnoreCase(gameMaker)) && !(gameStatus.equalsIgnoreCase("active")))
+				  {
+					  
+					  model.addAttribute("StartGame", "Hi Game Maker!  Go Ahead and push the button to start the game!");
+					 option = "true";
+				  }	  
+				  
+				  else
+				  {
+					  option = "false";
+				  }
+				
+				}
+				catch (Exception e) {
+					System.err.println("Got an exception!");
+					System.err.println(e.getMessage());
+				}
+				
+					if (option.equalsIgnoreCase("true"))
+					{
+						return "StartGameOption";
+					}
+						
+					else
+					{
+					return "NoStartGameOption";	
+					}
+				}
+			
+	}	  		
+				
+		
+	@RequestMapping(value = "GameInvitationPage", method = RequestMethod.GET)
+	public String playerClicksonGameInvitationPageInNavigationBar(HttpServletRequest request, HttpServletResponse response, Model model) {
+	//This method will pull up an accept game option if the player has any game invites and they click on game invitations page
+		{		String option = "";			  
+				try
+				{//Step 1: game name associated with userNameSession
+					
+					HttpSession session = request.getSession();
+					String userNameSession = (String) session.getAttribute("userNameSession");
+					Class.forName("com.mysql.jdbc.Driver");
+					System.out.println(userNameSession);
+					Connection conn = DriverManager.getConnection(
+							"jdbc:mysql://localhost:3306/GameTestPlayerName", "root",
+							"admin");
+
+					
+					//Step 2: Get Game Name Associated with user and Player Status
+					String query = "SELECT GameName, PlayerStatus FROM PlayerTable1 WHERE UserId = ?";
+				
+					
+					
+				    java.sql.PreparedStatement ps = conn.prepareStatement(query);
+				    ps.setString(1, userNameSession);
+				    System.out.println(ps);
+				    
+				    // process the results
+				    ResultSet rs = ps.executeQuery();
+				   
+				    String gameName= " ";
+				    String playerStatus = " ";
+				    while ( rs.next() )
+				    {
+				    	 gameName = rs.getString(1);
+				    	 playerStatus = rs.getString(2);
+				    }
+				  
+				    model.addAttribute("gameName", gameName);
+				    model.addAttribute("playerStatus", playerStatus);
+				    System.out.println(gameName + "is the gamename associated with this player" );
+				    System.out.println(playerStatus + "is the playerStatus");
+			  //we will then see what gamestatus is
+				   String query1 = "SELECT GameStatus FROM GameTable1 WHERE GameName = ?";
+				    java.sql.PreparedStatement ps1 = conn.prepareStatement(query1);
+				    ps1.setString(1, gameName);
+				    System.out.println(ps1);
+				    
+				    // process the results
+				    ResultSet rs1 = ps1.executeQuery();
+				  
+				    String gameStatus= "";
+				  
+				    if(rs1.next())
+				    {
+				    
+				    	gameStatus = rs1.getString(1);
+				
+				
+				    }
+				   
+				    model.addAttribute("message2", gameStatus);
+				    System.out.println("the game status is " + gameStatus);
+				 //check to see if userID = game maker id and if game is not yet active
+				  if (!(playerStatus.equalsIgnoreCase("active")) && !(gameStatus.equalsIgnoreCase("active")))
+				  {
+					
+					  
+					  model.addAttribute("AcceptGame",   "Push the Accept Game Button to Accept Your Invitation to " + gameName + " Game!");
+					 option = "true";
+				  }	  
+				  
+				  else
+				  {
+					  option = "false";
+				  }
+				
+				}
+				catch (Exception e) {
+					System.err.println("Got an exception!");
+					System.err.println(e.getMessage());
+				}
+				
+					if (option.equalsIgnoreCase("true"))
+					{
+						return "AcceptInviteOption";
+					}
+						
+					else
+					{
+					return "NoInvitationOption";	
+					}
+				}
+			
+	}	  		
 
 	@RequestMapping(value = "StartGameButton", method = RequestMethod.GET)
 	public String StartGameAssignments(HttpServletRequest request,
