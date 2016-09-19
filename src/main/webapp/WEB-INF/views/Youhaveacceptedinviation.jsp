@@ -123,13 +123,9 @@ li a:hover {
 
 </ul>
 </header>
-<h1> ${AcceptGame}   </h1>
+<h1> You have accepted a game invitation!</h1>
+<h3>You will see your assignment on the "Active Games"" Page when the Game Maker Starts the Game!</h3>
 
-<form action= "AcceptGame" method ="get">
-<input type = "submit"  value="Accept invitation!">
-</form>
-
-<!--  <button onclick="updatePlayerToActive">Accept Invitation</button>-->
 
 
 </body>

@@ -526,7 +526,7 @@ public class HomeController {
 			System.err.println(e.getMessage());
 		}
 
-		return "playerdashboard";
+		return "Youhaveacceptedinviation";
 	}
 
 	@RequestMapping(value = "AddPlayerToPlayersTable", method = RequestMethod.GET)
